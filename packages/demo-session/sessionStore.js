@@ -52,7 +52,7 @@ ${topicVotes.map((vote) => `- ${vote.userId}: ${vote.reason}`).join("\n") || "No
 `;
 }
 
-export async function generateFinalDocuments() {
+export async function generateFinalDocuments(metadata = {}) {
   const current = await readCurrentTopics();
   const votes = await readVotes();
   const selectedTopics = current.selectedTopics?.length
@@ -76,11 +76,13 @@ export async function generateFinalDocuments() {
   }
 
   const session = {
-    id: `session_${current.date || Date.now()}`,
+    id: `session_${current.cycleId || current.date || Date.now()}`,
     date: current.date,
+    cycleId: current.cycleId,
     status: "documented",
     selectedTopics: documentedTopics,
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    ...metadata
   };
   const sessions = await readSessions();
   const withoutCurrent = sessions.filter((item) => item.id !== session.id);

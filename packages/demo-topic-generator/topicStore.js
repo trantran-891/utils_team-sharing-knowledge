@@ -59,6 +59,7 @@ export async function saveGeneratedTopics(topics, dateKey = formatDateKey()) {
 
   const index = {
     date: dateKey,
+    cycleId: `${dateKey}-${Date.now()}`,
     status: "generated",
     createdAt: new Date().toISOString(),
     topics: storedTopics

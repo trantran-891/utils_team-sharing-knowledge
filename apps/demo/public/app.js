@@ -7,6 +7,7 @@ const state = {
   currentTopics: { topics: [] },
   feedback: [],
   sessions: [],
+  latestSession: null,
   history: []
 };
 
@@ -45,6 +46,55 @@ function addLog(userId, message) {
   const line = document.createElement("div");
   line.textContent = `${new Date().toLocaleTimeString()} ${message}`;
   log.prepend(line);
+}
+
+function chatInitialLogMarkup() {
+  const topics = state.currentTopics.topics || [];
+  const votes = state.currentTopics.votes || [];
+  const voteLogs = votes.map((vote) => {
+    const member = state.members.find((item) => item.id === vote.userId);
+    const topic = topics.find((item) => item.id === vote.topicId);
+    return `<div>${member?.name || vote.userId} selected "${topic?.title || vote.topicId}".</div>`;
+  }).join("");
+
+  if (state.currentTopics.notifiedAt && topics.length) {
+    return `
+      <div>${new Date(state.currentTopics.notifiedAt).toLocaleTimeString()} ${state.currentTopics.notificationMessage || state.currentTopics.message || "Weekly sharing topics are ready. Please vote for one topic."}</div>
+      <div>${topics.length} topic(s) available for voting.</div>
+      ${voteLogs}
+    `;
+  }
+  if (topics.length) {
+    return `
+      <div>${topics.length} topic(s) available. Notification state was loaded from storage.</div>
+      ${voteLogs}
+    `;
+  }
+  return "<div>Waiting for topic notifications...</div>";
+}
+
+function renderPreparedTopicsNotice() {
+  const session = state.latestSession;
+  if (!session?.selectedTopics?.length) return "";
+  const topics = [...session.selectedTopics].sort((a, b) => (a.selectedRank || 999) - (b.selectedRank || 999));
+  return `
+    <section class="sharing-notice">
+      <div class="notice-kicker">AI documents ready</div>
+      <h4>${session.sharingDateTime || "Sharing time will be confirmed soon"}</h4>
+      <p>${session.message || "Prepared markdown documents are ready for the selected topics."}</p>
+      <div class="priority-list">
+        ${topics.map((topic, index) => `
+          <div class="priority-item">
+            <span class="priority-badge">P${topic.selectedRank || index + 1}</span>
+            <div>
+              <strong>${topic.title}</strong>
+              <small>${topic.voteCount || 0} vote(s) · ${topic.documentPath || "document ready"}</small>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    </section>
+  `;
 }
 
 function renderSettings() {
@@ -143,28 +193,45 @@ function renderUserPanels() {
   const target = $("#userPanels");
   if (!target) return;
   const topics = state.currentTopics.topics || [];
+  const votes = state.currentTopics.votes || [];
   target.innerHTML = state.members.map((member) => `
-    <article class="chat-panel" data-user="${member.id}">
-      <h3><span class="avatar">${member.name[0]}</span>${member.name}</h3>
-      <p class="meta">${member.role}</p>
-      <div class="log" data-log="${member.id}">
-        <div>Waiting for topic notifications...</div>
-      </div>
-      <div class="vote-row">
-        <label>Topic
-          <select data-vote-topic="${member.id}">
-            ${topics.map((topic) => `<option value="${topic.id}">${topic.title}</option>`).join("")}
-          </select>
-        </label>
-        <label>Reason <input data-vote-reason="${member.id}" placeholder="Why this topic?" /></label>
-        <button class="small" data-vote-btn="${member.id}" ${topics.length ? "" : "disabled"}>Vote</button>
-      </div>
-    </article>
+    ${renderUserPanel(member, topics, votes)}
   `).join("");
 
   for (const member of state.members) {
     document.querySelector(`[data-vote-btn="${member.id}"]`)?.addEventListener("click", () => submitVote(member.id));
   }
+}
+
+function renderUserPanel(member, topics, votes) {
+  const vote = votes.find((item) => item.userId === member.id);
+  const selectedTopic = vote ? topics.find((topic) => topic.id === vote.topicId) : null;
+  const docsReady = state.latestSession?.selectedTopics?.length || state.currentTopics.status === "documented";
+
+  return `
+    <article class="chat-panel ${vote ? "voted" : ""}" data-user="${member.id}">
+      <h3><span class="avatar">${member.name[0]}</span>${member.name}</h3>
+      <p class="meta">${member.role}</p>
+      <div class="log" data-log="${member.id}">
+        ${chatInitialLogMarkup()}
+      </div>
+      ${renderPreparedTopicsNotice()}
+      ${vote ? `
+        <div class="vote-alert">Selected: <strong>${selectedTopic?.title || vote.topicId}</strong></div>
+        ${docsReady ? `<div class="docs-alert">Documents are ready. See priority list above.</div>` : ""}
+      ` : `
+        <div class="vote-row">
+          <label>Topic
+            <select data-vote-topic="${member.id}">
+              ${topics.map((topic) => `<option value="${topic.id}">${topic.title}</option>`).join("")}
+            </select>
+          </label>
+          <label>Reason <input data-vote-reason="${member.id}" placeholder="Why this topic?" /></label>
+          <button class="small" data-vote-btn="${member.id}" ${topics.length ? "" : "disabled"}>Vote</button>
+        </div>
+      `}
+    </article>
+  `;
 }
 
 function renderFeedbackForm() {
@@ -208,6 +275,9 @@ async function refresh() {
   state.currentTopics = { ...currentTopics, votes: voteState.votes };
   state.feedback = feedback;
   state.sessions = sessions;
+  state.latestSession = sessions.slice().reverse().find((session) => (
+    currentTopics.cycleId ? session.cycleId === currentTopics.cycleId : session.date === currentTopics.date
+  )) || null;
   state.history = history;
   renderSettings();
   renderMembers();
@@ -335,16 +405,26 @@ socket.on("topics:notify", (payload) => {
 socket.on("vote:updated", (payload) => {
   state.currentTopics = payload;
   renderTopics();
-  state.members.forEach((member) => addLog(member.id, "Vote result updated."));
+  state.members.forEach((member) => addLog(member.id, payload.lastVote?.message || "Vote result updated."));
 });
 socket.on("voting:closed", (payload) => {
   state.currentTopics = payload;
   renderTopics();
-  state.members.forEach((member) => addLog(member.id, "Voting closed."));
+  state.members.forEach((member) => addLog(member.id, payload.message || "Voting closed."));
 });
 socket.on("session:docs-created", (payload) => {
+  state.latestSession = payload;
   renderDocuments(payload);
-  state.members.forEach((member) => addLog(member.id, "Markdown docs created."));
+  renderUserPanels();
+  const topics = payload.selectedTopics
+    ?.slice()
+    .sort((a, b) => (a.selectedRank || 999) - (b.selectedRank || 999))
+    .map((topic, index) => `P${topic.selectedRank || index + 1}: ${topic.title}`)
+    .join(", ");
+  state.members.forEach((member) => {
+    addLog(member.id, payload.message || "Markdown docs created.");
+    if (topics) addLog(member.id, `Prepared topics: ${topics}`);
+  });
 });
 socket.on("feedback:updated", (payload) => {
   state.feedback = payload.feedback;

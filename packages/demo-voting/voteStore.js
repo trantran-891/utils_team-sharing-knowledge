@@ -3,6 +3,7 @@ import path from "node:path";
 import { readCurrentTopics, writeCurrentTopics } from "../demo-topic-generator/topicStore.js";
 
 const votesPath = path.resolve("data/votes.json");
+let voteQueue = Promise.resolve();
 
 async function ensureVotes() {
   await mkdir(path.dirname(votesPath), { recursive: true });
@@ -15,7 +16,12 @@ async function ensureVotes() {
 
 export async function readVotes() {
   await ensureVotes();
-  return JSON.parse(await readFile(votesPath, "utf8"));
+  try {
+    return JSON.parse(await readFile(votesPath, "utf8"));
+  } catch {
+    await writeFile(votesPath, "[]\n");
+    return [];
+  }
 }
 
 export async function writeVotes(votes) {
@@ -25,6 +31,11 @@ export async function writeVotes(votes) {
 }
 
 export async function submitVote(vote) {
+  voteQueue = voteQueue.catch(() => undefined).then(() => submitVoteUnsafe(vote));
+  return voteQueue;
+}
+
+async function submitVoteUnsafe(vote) {
   const votes = await readVotes();
   const current = await readCurrentTopics();
   const normalized = {
