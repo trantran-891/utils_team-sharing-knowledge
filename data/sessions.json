@@ -1,0 +1,52 @@
+[
+  {
+    "id": "session_20260501",
+    "date": "20260501",
+    "status": "documented",
+    "selectedTopics": [
+      {
+        "id": "topic_01",
+        "title": "System Design Basics for Feature Teams",
+        "overview": "A practical introduction to system design decisions for small feature teams.",
+        "background": "The team is touching more services and needs a shared language for tradeoffs.",
+        "whyItMatters": "Better design conversations reduce rework and make implementation plans clearer.",
+        "difficulty": "Intermediate",
+        "expectedImpact": "High",
+        "targetAudience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "status": "documented",
+        "voteCount": 1,
+        "descriptionPath": "data/generated/topic/20260501/topic_01/description.md",
+        "selectedRank": 1,
+        "documentPath": "data/generated/topic/20260501/topic_01/final_document.md",
+        "voteSummaryPath": "data/generated/topic/20260501/topic_01/vote_summary.md"
+      },
+      {
+        "id": "topic_02",
+        "title": "Risk-Based Testing Before Release",
+        "overview": "How QA, engineers, and BA can identify the riskiest flows before a release.",
+        "background": "Recent work needs faster confidence without expanding the full regression scope.",
+        "whyItMatters": "The team can spend testing time where defects would hurt users most.",
+        "difficulty": "Beginner",
+        "expectedImpact": "High",
+        "targetAudience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "status": "documented",
+        "voteCount": 1,
+        "descriptionPath": "data/generated/topic/20260501/topic_02/description.md",
+        "selectedRank": 2,
+        "documentPath": "data/generated/topic/20260501/topic_02/final_document.md",
+        "voteSummaryPath": "data/generated/topic/20260501/topic_02/vote_summary.md"
+      }
+    ],
+    "createdAt": "2026-05-01T08:58:08.429Z"
+  }
+]

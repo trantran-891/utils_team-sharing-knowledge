@@ -1,0 +1,14 @@
+[
+  {
+    "userId": "user_01",
+    "topicId": "topic_01",
+    "reason": "Useful for current architecture work",
+    "createdAt": "2026-05-01T08:56:19.518Z"
+  },
+  {
+    "userId": "user_02",
+    "topicId": "topic_02",
+    "reason": "Improves release confidence",
+    "createdAt": "2026-05-01T08:56:20.669Z"
+  }
+]

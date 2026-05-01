@@ -1,0 +1,84 @@
+[
+  {
+    "id": "user_01",
+    "name": "Hải",
+    "role": "Backend Developer",
+    "level": "Mid",
+    "hardSkills": [
+      "Node.js",
+      "API",
+      "Database"
+    ],
+    "softSkills": [
+      "Communication"
+    ],
+    "goals": [
+      "System Design",
+      "Reliable APIs"
+    ],
+    "painPoints": [
+      "Need better architecture discussion"
+    ]
+  },
+  {
+    "id": "user_02",
+    "name": "An",
+    "role": "QA Engineer",
+    "level": "Mid",
+    "hardSkills": [
+      "Test Design",
+      "Automation",
+      "Risk Analysis"
+    ],
+    "softSkills": [
+      "Detail-oriented"
+    ],
+    "goals": [
+      "Risk-based testing"
+    ],
+    "painPoints": [
+      "Late requirement changes"
+    ]
+  },
+  {
+    "id": "user_03",
+    "name": "Minh",
+    "role": "Frontend Developer",
+    "level": "Junior",
+    "hardSkills": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "softSkills": [
+      "Collaboration"
+    ],
+    "goals": [
+      "Performance",
+      "Maintainable UI"
+    ],
+    "painPoints": [
+      "Unclear API contracts"
+    ]
+  },
+  {
+    "id": "user_04",
+    "name": "Lan",
+    "role": "Business Analyst",
+    "level": "Senior",
+    "hardSkills": [
+      "Requirements",
+      "User Flows",
+      "Stakeholder Mapping"
+    ],
+    "softSkills": [
+      "Facilitation"
+    ],
+    "goals": [
+      "Better acceptance criteria"
+    ],
+    "painPoints": [
+      "Hard to align technical tradeoffs"
+    ]
+  }
+]

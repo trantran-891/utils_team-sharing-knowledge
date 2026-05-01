@@ -1,0 +1,9 @@
+[
+  {
+    "userId": "user_01",
+    "topicId": "topic_01",
+    "rating": 5,
+    "comment": "Very useful demo",
+    "createdAt": "2026-05-01T08:58:07.581Z"
+  }
+]
