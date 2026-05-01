@@ -1,15 +1,17 @@
 const socket = io();
+const page = document.body.dataset.page;
 
 const state = {
   settings: null,
   members: [],
   currentTopics: { topics: [] },
-  votes: [],
   feedback: [],
-  sessions: []
+  sessions: [],
+  history: []
 };
 
 const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 async function api(path, options = {}) {
   const response = await fetch(path, {
@@ -20,8 +22,21 @@ async function api(path, options = {}) {
   return response.json();
 }
 
+function setText(selector, text) {
+  const element = $(selector);
+  if (element) element.textContent = text;
+}
+
 function setStatus(text) {
-  $("#socketStatus").textContent = text;
+  setText("#socketStatus", text);
+}
+
+function csv(value) {
+  return Array.isArray(value) ? value.join(", ") : value || "";
+}
+
+function splitCsv(value) {
+  return value.split(",").map((item) => item.trim()).filter(Boolean);
 }
 
 function addLog(userId, message) {
@@ -33,6 +48,7 @@ function addLog(userId, message) {
 }
 
 function renderSettings() {
+  if (page !== "admin") return;
   const settings = state.settings || {};
   for (const key of ["generateTopicDay", "notifyDay", "voteDeadlineDay", "sharingDay", "topicsPerCycle", "topicDirection"]) {
     const input = $(`#${key}`);
@@ -40,46 +56,56 @@ function renderSettings() {
   }
 }
 
-function csv(value) {
-  return Array.isArray(value) ? value.join(", ") : value || "";
-}
-
-function splitCsv(value) {
-  return value.split(",").map((item) => item.trim()).filter(Boolean);
-}
-
 function renderMembers() {
-  $("#memberProfiles").innerHTML = state.members.map((member) => `
-    <article class="profile" data-member="${member.id}">
-      <h3>${member.name}</h3>
-      <label>Name <input data-field="name" value="${member.name}" /></label>
-      <label>Role <input data-field="role" value="${member.role}" /></label>
-      <label>Level <input data-field="level" value="${member.level}" /></label>
-      <label>Hard skills <input data-field="hardSkills" value="${csv(member.hardSkills)}" /></label>
-      <label>Soft skills <input data-field="softSkills" value="${csv(member.softSkills)}" /></label>
-      <label>Goals <input data-field="goals" value="${csv(member.goals)}" /></label>
-      <label>Pain points <input data-field="painPoints" value="${csv(member.painPoints)}" /></label>
-    </article>
-  `).join("");
+  if (page === "admin") {
+    const target = $("#memberProfiles");
+    if (!target) return;
+    target.innerHTML = state.members.map((member) => `
+      <article class="profile" data-member="${member.id}">
+        <h3>${member.name}</h3>
+        <label>Name <input data-field="name" value="${member.name}" /></label>
+        <label>Role <input data-field="role" value="${member.role}" /></label>
+        <label>Level <input data-field="level" value="${member.level}" /></label>
+        <label>Hard skills <input data-field="hardSkills" value="${csv(member.hardSkills)}" /></label>
+        <label>Soft skills <input data-field="softSkills" value="${csv(member.softSkills)}" /></label>
+        <label>Goals <input data-field="goals" value="${csv(member.goals)}" /></label>
+        <label>Pain points <input data-field="painPoints" value="${csv(member.painPoints)}" /></label>
+      </article>
+    `).join("");
+  }
+
+  if (page === "chats") renderUserPanels();
+  if (page === "feedback") renderFeedbackForm();
 }
 
 function renderTopics() {
-  const topics = state.currentTopics.topics || [];
-  $("#topicList").innerHTML = topics.length ? topics.map((topic) => `
-    <article class="topic">
-      <h3>${topic.id}: ${topic.title}</h3>
-      <p>${topic.overview}</p>
-      <p class="meta">Status: ${topic.status || state.currentTopics.status} | Votes: ${topic.voteCount || 0}</p>
-      <p class="meta">${topic.descriptionPath || ""}</p>
-    </article>
-  `).join("") : "No topics generated yet.";
-  renderVoting();
-  renderUserPanels();
+  if (page === "admin") {
+    const topics = state.currentTopics.topics || [];
+    const target = $("#topicList");
+    if (target) {
+      target.innerHTML = topics.length ? topics.map((topic) => `
+        <article class="topic">
+          <h3>${topic.id}: ${topic.title}</h3>
+          <p>${topic.overview}</p>
+          <p class="meta">Status: ${topic.status || state.currentTopics.status} | Votes: ${topic.voteCount || 0}</p>
+          <p class="meta">${topic.descriptionPath || ""}</p>
+        </article>
+      `).join("") : "No topics generated yet.";
+    }
+    renderVoting();
+    renderDocuments();
+  }
+
+  if (page === "chats") renderUserPanels();
+  if (page === "feedback") renderFeedbackForm();
 }
 
 function renderVoting() {
+  if (page !== "admin") return;
+  const target = $("#votingResult");
+  if (!target) return;
   const ranked = state.currentTopics.rankedTopics || [...(state.currentTopics.topics || [])].sort((a, b) => (b.voteCount || 0) - (a.voteCount || 0));
-  $("#votingResult").innerHTML = ranked.length ? ranked.map((topic, index) => `
+  target.innerHTML = ranked.length ? ranked.map((topic, index) => `
     <div class="list-item">
       <strong>#${index + 1} ${topic.title}</strong>
       <div class="meta">${topic.voteCount || 0} vote(s) · ${topic.status || state.currentTopics.status}</div>
@@ -88,8 +114,11 @@ function renderVoting() {
 }
 
 function renderDocuments(session = null) {
+  if (page !== "admin") return;
+  const target = $("#documentResult");
+  if (!target) return;
   const active = session || state.sessions.at?.(-1);
-  $("#documentResult").innerHTML = active?.selectedTopics?.length ? active.selectedTopics.map((topic) => `
+  target.innerHTML = active?.selectedTopics?.length ? active.selectedTopics.map((topic) => `
     <div class="list-item">
       <strong>${topic.title}</strong>
       <div class="meta">${topic.documentPath || "Document pending"}</div>
@@ -97,17 +126,11 @@ function renderDocuments(session = null) {
   `).join("") : "Markdown docs are created after voting.";
 }
 
-function renderFeedback() {
-  $("#feedbackList").innerHTML = state.feedback.length ? state.feedback.slice().reverse().map((item) => `
-    <div class="list-item">
-      <strong>${item.userId}</strong> rated ${item.rating}/5 for ${item.topicId}
-      <div>${item.comment}</div>
-    </div>
-  `).join("") : "No feedback yet.";
-}
-
-function renderHistory(history = []) {
-  $("#historyList").innerHTML = history.length ? history.map((cycle) => `
+function renderHistory() {
+  if (page !== "admin") return;
+  const target = $("#historyList");
+  if (!target) return;
+  target.innerHTML = state.history.length ? state.history.map((cycle) => `
     <div class="list-item">
       <strong>${cycle.date}</strong> · ${cycle.status}
       <div class="meta">${cycle.topics?.length || 0} topic(s)</div>
@@ -116,12 +139,17 @@ function renderHistory(history = []) {
 }
 
 function renderUserPanels() {
+  if (page !== "chats") return;
+  const target = $("#userPanels");
+  if (!target) return;
   const topics = state.currentTopics.topics || [];
-  $("#userPanels").innerHTML = state.members.map((member) => `
+  target.innerHTML = state.members.map((member) => `
     <article class="chat-panel" data-user="${member.id}">
       <h3><span class="avatar">${member.name[0]}</span>${member.name}</h3>
       <p class="meta">${member.role}</p>
-      <div class="log" data-log="${member.id}"></div>
+      <div class="log" data-log="${member.id}">
+        <div>Waiting for topic notifications...</div>
+      </div>
       <div class="vote-row">
         <label>Topic
           <select data-vote-topic="${member.id}">
@@ -131,18 +159,38 @@ function renderUserPanels() {
         <label>Reason <input data-vote-reason="${member.id}" placeholder="Why this topic?" /></label>
         <button class="small" data-vote-btn="${member.id}" ${topics.length ? "" : "disabled"}>Vote</button>
       </div>
-      <div class="feedback-row">
-        <label>Rating <input data-rating="${member.id}" type="number" min="1" max="5" value="5" /></label>
-        <label>Comment <textarea data-comment="${member.id}" rows="2" placeholder="Feedback after sharing"></textarea></label>
-        <button class="small secondary" data-feedback-btn="${member.id}" ${topics.length ? "" : "disabled"}>Submit Feedback</button>
-      </div>
     </article>
   `).join("");
 
   for (const member of state.members) {
     document.querySelector(`[data-vote-btn="${member.id}"]`)?.addEventListener("click", () => submitVote(member.id));
-    document.querySelector(`[data-feedback-btn="${member.id}"]`)?.addEventListener("click", () => submitFeedback(member.id));
   }
+}
+
+function renderFeedbackForm() {
+  if (page !== "feedback") return;
+  const userSelect = $("#feedbackUser");
+  const topicSelect = $("#feedbackTopic");
+  if (userSelect) {
+    userSelect.innerHTML = state.members.map((member) => `<option value="${member.id}">${member.name} - ${member.role}</option>`).join("");
+  }
+  if (topicSelect) {
+    const selected = state.currentTopics.selectedTopics || state.currentTopics.topics || [];
+    topicSelect.innerHTML = selected.map((topic) => `<option value="${topic.id}">${topic.title}</option>`).join("");
+  }
+  renderFeedbackList();
+}
+
+function renderFeedbackList() {
+  if (page !== "feedback") return;
+  const target = $("#feedbackList");
+  if (!target) return;
+  target.innerHTML = state.feedback.length ? state.feedback.slice().reverse().map((item) => `
+    <div class="list-item">
+      <strong>${item.userId}</strong> rated ${item.rating}/5 for ${item.topicId}
+      <div>${item.comment}</div>
+    </div>
+  `).join("") : "No feedback yet.";
 }
 
 async function refresh() {
@@ -160,12 +208,12 @@ async function refresh() {
   state.currentTopics = { ...currentTopics, votes: voteState.votes };
   state.feedback = feedback;
   state.sessions = sessions;
+  state.history = history;
   renderSettings();
   renderMembers();
   renderTopics();
-  renderFeedback();
-  renderDocuments();
-  renderHistory(history);
+  renderHistory();
+  renderFeedbackList();
 }
 
 async function saveSettings() {
@@ -184,7 +232,7 @@ async function saveSettings() {
 }
 
 async function saveMembers() {
-  const members = [...document.querySelectorAll("[data-member]")].map((card) => ({
+  const members = $$("[data-member]").map((card) => ({
     id: card.dataset.member,
     name: card.querySelector('[data-field="name"]').value,
     role: card.querySelector('[data-field="role"]').value,
@@ -199,7 +247,28 @@ async function saveMembers() {
     body: JSON.stringify({ members })
   });
   renderMembers();
-  renderUserPanels();
+}
+
+async function importProfiles() {
+  const file = $("#profileUpload")?.files?.[0];
+  if (!file) {
+    setText("#mainStatus", "Choose a profile file first.");
+    return;
+  }
+  const content = await file.text();
+  state.members = await api("/api/members/import", {
+    method: "POST",
+    body: JSON.stringify({ content })
+  });
+  renderMembers();
+  setText("#mainStatus", "Profiles imported and formatted.");
+}
+
+async function generateAndNotify() {
+  setText("#mainStatus", "Generating topics and sending notifications...");
+  state.currentTopics = await api("/api/topics/generate-and-notify", { method: "POST" });
+  renderTopics();
+  setText("#mainStatus", `Generated ${state.currentTopics.topics.length} topics and notified members.`);
 }
 
 async function submitVote(userId) {
@@ -210,39 +279,46 @@ async function submitVote(userId) {
     body: JSON.stringify({ userId, topicId, reason })
   });
   state.currentTopics = result.state;
-  renderTopics();
+  renderUserPanels();
 }
 
-async function submitFeedback(userId) {
-  const topicId = document.querySelector(`[data-vote-topic="${userId}"]`).value;
-  const rating = document.querySelector(`[data-rating="${userId}"]`).value;
-  const comment = document.querySelector(`[data-comment="${userId}"]`).value;
+async function submitFeedback() {
   const result = await api("/api/feedback", {
     method: "POST",
-    body: JSON.stringify({ userId, topicId, rating, comment })
+    body: JSON.stringify({
+      userId: $("#feedbackUser").value,
+      topicId: $("#feedbackTopic").value,
+      rating: $("#feedbackRating").value,
+      comment: $("#feedbackComment").value
+    })
   });
   state.feedback = result.feedback;
-  renderFeedback();
+  $("#feedbackComment").value = "";
+  renderFeedbackList();
 }
 
-$("#saveSettingsBtn").addEventListener("click", saveSettings);
-$("#saveMembersBtn").addEventListener("click", saveMembers);
-$("#generateTopicsBtn").addEventListener("click", async () => {
-  state.currentTopics = await api("/api/topics/generate", { method: "POST" });
-  renderTopics();
-});
-$("#notifyUsersBtn").addEventListener("click", async () => {
-  await api("/api/topics/notify", { method: "POST" });
-});
-$("#closeVotingBtn").addEventListener("click", async () => {
-  state.currentTopics = await api("/api/votes/close", { method: "POST" });
-  renderTopics();
-});
-$("#generateDocsBtn").addEventListener("click", async () => {
-  const session = await api("/api/docs/generate", { method: "POST" });
-  state.sessions.push(session);
-  renderDocuments(session);
-});
+function bindAdmin() {
+  $$("[data-open-modal]").forEach((button) => {
+    button.addEventListener("click", () => $(`#${button.dataset.openModal}`)?.showModal());
+  });
+  $("#generateAndNotifyBtn")?.addEventListener("click", generateAndNotify);
+  $("#saveSettingsBtn")?.addEventListener("click", saveSettings);
+  $("#saveMembersBtn")?.addEventListener("click", saveMembers);
+  $("#importProfilesBtn")?.addEventListener("click", importProfiles);
+  $("#closeVotingBtn")?.addEventListener("click", async () => {
+    state.currentTopics = await api("/api/votes/close", { method: "POST" });
+    renderTopics();
+  });
+  $("#generateDocsBtn")?.addEventListener("click", async () => {
+    const session = await api("/api/docs/generate", { method: "POST" });
+    state.sessions.push(session);
+    renderDocuments(session);
+  });
+}
+
+function bindFeedback() {
+  $("#submitFeedbackBtn")?.addEventListener("click", submitFeedback);
+}
 
 socket.on("connect", () => setStatus("Socket connected"));
 socket.on("disconnect", () => setStatus("Socket disconnected"));
@@ -252,6 +328,8 @@ socket.on("topics:generated", (payload) => {
   state.members.forEach((member) => addLog(member.id, "Topics generated."));
 });
 socket.on("topics:notify", (payload) => {
+  state.currentTopics = payload;
+  renderTopics();
   state.members.forEach((member) => addLog(member.id, payload.message));
 });
 socket.on("vote:updated", (payload) => {
@@ -270,10 +348,14 @@ socket.on("session:docs-created", (payload) => {
 });
 socket.on("feedback:updated", (payload) => {
   state.feedback = payload.feedback;
-  renderFeedback();
+  renderFeedbackList();
 });
+
+if (page === "admin") bindAdmin();
+if (page === "feedback") bindFeedback();
 
 refresh().catch((error) => {
   console.error(error);
+  setText("#mainStatus", "Initial load failed.");
   setStatus("Initial load failed");
 });

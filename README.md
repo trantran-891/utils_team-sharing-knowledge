@@ -55,6 +55,20 @@ Then open:
 http://localhost:3000
 ```
 
+Open all demo views at once:
+
+```bash
+./start.sh
+```
+
+Current demo views:
+
+```text
+Admin action center  http://127.0.0.1:3000/
+User chat voting    http://127.0.0.1:3000/chats.html
+Feedback form       http://127.0.0.1:3000/feedback.html
+```
+
 The demo uses Node.js, Express, Socket.IO, HTML, CSS, and vanilla JavaScript. It does not use a frontend framework or production database. Topic artifacts are written to:
 
 ```text
@@ -91,6 +105,8 @@ Demo app:
 ```text
 apps/demo/server.js
 apps/demo/public/index.html
+apps/demo/public/chats.html
+apps/demo/public/feedback.html
 apps/demo/public/styles.css
 apps/demo/public/app.js
 ```

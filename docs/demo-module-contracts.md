@@ -21,9 +21,9 @@ Input: event name and payload from server actions.
 Output: Socket.IO broadcasts to dashboard and four user chat panels.
 
 ## `packages/demo-profile`
-Input: member profile edits from the dashboard.
+Input: uploaded raw profile JSON/text or member profile edits from the dashboard.
 
-Output: `data/members.json`.
+Output: formatted member profiles in `data/members.json`.
 
 ## `packages/demo-settings`
 Input: system settings form values.

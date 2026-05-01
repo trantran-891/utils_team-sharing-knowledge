@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import { fileURLToPath } from "node:url";
 
 import { addFeedback, readFeedback } from "../../packages/demo-feedback/feedbackStore.js";
+import { formatImportedProfiles } from "../../packages/demo-profile/profileFormatter.js";
 import { readMembers, upsertMember, writeMembers } from "../../packages/demo-profile/memberStore.js";
 import { createSocketNotifier } from "../../packages/demo-notification/socketNotifier.js";
 import { completeSession, generateFinalDocuments, readSessions } from "../../packages/demo-session/sessionStore.js";
@@ -55,6 +56,11 @@ app.put("/api/members/:id", asyncHandler(async (req, res) => {
   res.json(await upsertMember({ ...req.body, id: req.params.id }));
 }));
 
+app.post("/api/members/import", asyncHandler(async (req, res) => {
+  const members = formatImportedProfiles(req.body.content || req.body.members || req.body);
+  res.json(await writeMembers(members));
+}));
+
 app.get("/api/topics/current", asyncHandler(async (_req, res) => {
   res.json(await readCurrentTopics());
 }));
@@ -70,6 +76,17 @@ app.post("/api/topics/notify", asyncHandler(async (_req, res) => {
   const payload = {
     message: "Weekly sharing topics are ready. Please vote for one topic.",
     ...current
+  };
+  notifier.topicsNotify(payload);
+  res.json(payload);
+}));
+
+app.post("/api/topics/generate-and-notify", asyncHandler(async (_req, res) => {
+  const result = await generateWeeklyTopics();
+  notifier.topicsGenerated(result);
+  const payload = {
+    message: "Weekly sharing topics are ready. Please vote for one topic.",
+    ...result
   };
   notifier.topicsNotify(payload);
   res.json(payload);

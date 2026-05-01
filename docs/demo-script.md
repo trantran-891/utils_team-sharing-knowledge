@@ -5,13 +5,18 @@ Chứng minh hệ thống có thể tự động hóa vòng đời team sharing:
 
 ## Chuẩn bị
 1. Chạy server: `npm start`
-2. Mở trình duyệt: `http://localhost:3000`
-3. Kiểm tra màn hình có Admin Dashboard bên trái và 4 User Chat Panels bên phải.
+2. Hoặc mở toàn bộ view demo: `./start.sh`
+3. Kiểm tra trình duyệt có 3 view:
+- Admin action center: `http://127.0.0.1:3000/`
+- User chat voting: `http://127.0.0.1:3000/chats.html`
+- Feedback form: `http://127.0.0.1:3000/feedback.html`
 
 ## Step 1 — Giới thiệu Dashboard
 Nói: "Đây là giao diện admin để quản lý toàn bộ chu kỳ sharing của team."
 
-Show nhanh các section: System Settings, Member Profiles, Topic Generation, Voting Result, Documents, Feedback, History.
+Show nhanh:
+- Màn hình chính chỉ có một nút tạo topic và gửi notification.
+- Các view phụ nằm trên top navigation và mở dưới dạng popup.
 
 ## Step 2 — Kiểm tra Settings
 Ở section System Settings, kiểm tra các field:
@@ -23,31 +28,43 @@ Show nhanh các section: System Settings, Member Profiles, Topic Generation, Vot
 
 Bấm `Save Settings`.
 
-## Step 3 — Xem 4 profile thành viên
-Ở section Member Profiles, show 4 user:
+## Step 3 — Import profile thành viên
+Ở top navigation bấm `Profiles`.
+
+Upload file mẫu:
+
+```text
+data/samples/profile-import-demo.txt
+```
+
+Bấm `Import + AI Format`.
+
+Sau đó show 4 user đã được format theo mẫu hệ thống:
 - Hải — Backend Developer
 - An — QA Engineer
 - Minh — Frontend Developer
 - Lan — Business Analyst
 
-Nói: "Hệ thống dùng profile này để tạo topic phù hợp với team."
+Nói: "Người dùng không nhập tay từ đầu. Hệ thống nhận profile thô rồi format lại theo schema demo. Nếu cần thì admin mới edit sau."
 
-## Step 4 — Generate Topics
-Bấm `Generate Weekly Topics`.
+## Step 4 — Generate Topics + Notify
+Bấm nút lớn ở màn hình chính:
+
+```text
+Create Topics + Send Notification
+```
 
 Kết quả mong đợi:
 - Topic list xuất hiện ở dashboard.
 - Folder `data/generated/topic/yyyymmdd` được tạo.
 - Mỗi topic có `description.md`.
-- 4 chat panels nhận event `topics:generated`.
+- 4 chat panels nhận notification.
 
 ## Step 5 — Notify Users
-Bấm `Notify Users`.
-
-Kết quả: 4 user chat panels nhận notification.
+Không cần bấm thêm. Notification đã được gửi trong cùng action ở Step 4.
 
 ## Step 6 — User Vote
-Ở mỗi user chat panel:
+Qua view `User Chat Voting`, ở mỗi user chat panel:
 - Chọn một topic.
 - Nhập reason ngắn.
 - Bấm `Vote`.
@@ -72,7 +89,9 @@ Kết quả:
 Nói: "Ở demo này hệ thống chỉ tạo markdown document. Slide, speaker notes và calendar là phần mở rộng sau."
 
 ## Step 9 — Feedback After Sharing
-Ở mỗi user chat panel:
+Qua view `Feedback Form`:
+- Chọn user.
+- Chọn topic.
 - Nhập rating.
 - Nhập comment.
 - Bấm `Submit Feedback`.

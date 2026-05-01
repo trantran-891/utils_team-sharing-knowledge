@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sharing Feedback</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="feedback">
+    <nav class="topbar">
+      <strong>Post-Sharing Feedback</strong>
+      <div class="nav-actions">
+        <a class="nav-link" href="/" target="_blank">Admin</a>
+        <a class="nav-link" href="/chats.html" target="_blank">User Chats</a>
+      </div>
+    </nav>
+
+    <main class="feedback-page">
+      <section class="card">
+        <p class="eyebrow">After Sharing</p>
+        <h1>Collect feedback</h1>
+        <div class="settings-grid">
+          <label>User <select id="feedbackUser"></select></label>
+          <label>Topic <select id="feedbackTopic"></select></label>
+          <label>Rating <input id="feedbackRating" type="number" min="1" max="5" value="5" /></label>
+        </div>
+        <label>Comment <textarea id="feedbackComment" rows="4" placeholder="What was useful? What should improve?"></textarea></label>
+        <button id="submitFeedbackBtn">Submit Feedback</button>
+      </section>
+
+      <section class="card">
+        <h2>Feedback Log</h2>
+        <div id="feedbackList" class="compact-list muted">No feedback yet.</div>
+      </section>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

@@ -13,11 +13,10 @@
       "Communication"
     ],
     "goals": [
-      "System Design",
-      "Reliable APIs"
+      "Improve team knowledge sharing"
     ],
     "painPoints": [
-      "Need better architecture discussion"
+      "Need clearer sharing priorities"
     ]
   },
   {
@@ -26,59 +25,56 @@
     "role": "QA Engineer",
     "level": "Mid",
     "hardSkills": [
-      "Test Design",
-      "Automation",
-      "Risk Analysis"
+      "Testing",
+      "automation"
     ],
     "softSkills": [
-      "Detail-oriented"
+      "Communication"
     ],
     "goals": [
-      "Risk-based testing"
+      "Improve team knowledge sharing"
     ],
     "painPoints": [
-      "Late requirement changes"
+      "Need clearer sharing priorities"
     ]
   },
   {
     "id": "user_03",
     "name": "Minh",
     "role": "Frontend Developer",
-    "level": "Junior",
+    "level": "Mid",
     "hardSkills": [
       "HTML",
       "CSS",
       "JavaScript"
     ],
     "softSkills": [
-      "Collaboration"
+      "Communication"
     ],
     "goals": [
-      "Performance",
-      "Maintainable UI"
+      "Improve team knowledge sharing"
     ],
     "painPoints": [
-      "Unclear API contracts"
+      "Need clearer sharing priorities"
     ]
   },
   {
     "id": "user_04",
     "name": "Lan",
     "role": "Business Analyst",
-    "level": "Senior",
+    "level": "Mid",
     "hardSkills": [
       "Requirements",
-      "User Flows",
-      "Stakeholder Mapping"
+      "analysis"
     ],
     "softSkills": [
-      "Facilitation"
+      "Communication"
     ],
     "goals": [
-      "Better acceptance criteria"
+      "Improve team knowledge sharing"
     ],
     "painPoints": [
-      "Hard to align technical tradeoffs"
+      "Need clearer sharing priorities"
     ]
   }
 ]

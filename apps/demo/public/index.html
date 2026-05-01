@@ -3,106 +3,132 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AI Team Sharing Assistant Demo</title>
+    <title>AI Team Sharing Assistant</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
-    <header class="hero">
-      <div>
-        <p class="eyebrow">Fake Web UI Demo</p>
-        <h1>AI Team Sharing Assistant</h1>
-        <p>Generate topics, notify members, collect votes, create markdown docs, and capture feedback.</p>
+  <body data-page="admin">
+    <nav class="topbar">
+      <strong>AI Team Sharing Assistant</strong>
+      <div class="nav-actions">
+        <button data-open-modal="settingsModal">Settings</button>
+        <button data-open-modal="profilesModal">Profiles</button>
+        <button data-open-modal="topicsModal">Topics</button>
+        <button data-open-modal="votingModal">Voting</button>
+        <button data-open-modal="documentsModal">Documents</button>
+        <button data-open-modal="historyModal">History</button>
+        <button data-open-modal="todoModal">Future TODO</button>
+        <a class="nav-link" href="/chats.html" target="_blank">User Chats</a>
+        <a class="nav-link" href="/feedback.html" target="_blank">Feedback View</a>
       </div>
-      <div class="status-pill" id="socketStatus">Connecting...</div>
-    </header>
+    </nav>
 
-    <main class="shell">
-      <section class="admin">
-        <div class="card">
-          <div class="section-title">
-            <h2>System Settings</h2>
-            <button id="saveSettingsBtn">Save Settings</button>
-          </div>
-          <div class="settings-grid">
-            <label>Generate topic day <input id="generateTopicDay" /></label>
-            <label>Notify day <input id="notifyDay" /></label>
-            <label>Vote deadline <input id="voteDeadlineDay" /></label>
-            <label>Sharing day <input id="sharingDay" /></label>
-            <label>Topics per cycle <input id="topicsPerCycle" type="number" min="1" max="10" /></label>
-          </div>
-          <label>Topic direction <textarea id="topicDirection" rows="3"></textarea></label>
-        </div>
-
-        <div class="card">
-          <div class="section-title">
-            <h2>Member Profiles</h2>
-            <button id="saveMembersBtn">Save Profiles</button>
-          </div>
-          <div id="memberProfiles" class="profiles"></div>
-        </div>
-
-        <div class="card">
-          <div class="section-title">
-            <h2>Topic Generation</h2>
-            <div class="actions">
-              <button id="generateTopicsBtn">Generate Weekly Topics</button>
-              <button id="notifyUsersBtn" class="secondary">Notify Users</button>
-            </div>
-          </div>
-          <div id="topicList" class="topic-list muted">No topics generated yet.</div>
-        </div>
-
-        <div class="card two-col">
-          <section>
-            <div class="section-title">
-              <h2>Voting Result</h2>
-              <button id="closeVotingBtn">Close Voting</button>
-            </div>
-            <div id="votingResult" class="muted">Waiting for votes.</div>
-          </section>
-          <section>
-            <div class="section-title">
-              <h2>Documents</h2>
-              <button id="generateDocsBtn">Generate Docs</button>
-            </div>
-            <div id="documentResult" class="muted">Markdown docs are created after voting.</div>
-          </section>
-        </div>
-
-        <div class="card two-col">
-          <section>
-            <h2>Feedback</h2>
-            <div id="feedbackList" class="compact-list muted">No feedback yet.</div>
-          </section>
-          <section>
-            <h2>History</h2>
-            <div id="historyList" class="compact-list muted">No history yet.</div>
-          </section>
-        </div>
-
-        <div class="card">
-          <h2>Future TODO</h2>
-          <div class="todo-grid">
-            <span>Real scheduler</span>
-            <span>Slack / Email / Calendar</span>
-            <span>SQLite or PostgreSQL</span>
-            <span>Topic quality checklist</span>
-            <span>Slide outline generation</span>
-            <span>Speaker notes</span>
-            <span>Auth and roles</span>
-            <span>Search historical topics</span>
-          </div>
-        </div>
+    <main class="command-center">
+      <section class="command-card">
+        <p class="eyebrow">Demo Admin Action</p>
+        <h1>Generate topics and notify members</h1>
+        <p>
+          Main admin screen intentionally has one operational button. Detail views are opened from the top
+          navigation as popups, matching a more realistic workflow.
+        </p>
+        <button id="generateAndNotifyBtn" class="primary-action">Create Topics + Send Notification</button>
+        <div id="mainStatus" class="status-box">Ready.</div>
       </section>
-
-      <aside class="users">
-        <div class="section-title">
-          <h2>4 User Chat Panels</h2>
-          <span class="hint">Socket.IO notification stream</span>
-        </div>
-        <div id="userPanels" class="user-grid"></div>
-      </aside>
     </main>
+
+    <dialog id="settingsModal" class="modal">
+      <form method="dialog" class="modal-card">
+        <header class="modal-header">
+          <h2>System Settings</h2>
+          <button class="ghost">Close</button>
+        </header>
+        <div class="settings-grid">
+          <label>Generate topic day <input id="generateTopicDay" /></label>
+          <label>Notify day <input id="notifyDay" /></label>
+          <label>Vote deadline <input id="voteDeadlineDay" /></label>
+          <label>Sharing day <input id="sharingDay" /></label>
+          <label>Topics per cycle <input id="topicsPerCycle" type="number" min="1" max="10" /></label>
+        </div>
+        <label>Topic direction <textarea id="topicDirection" rows="4"></textarea></label>
+        <button id="saveSettingsBtn" type="button">Save Settings</button>
+      </form>
+    </dialog>
+
+    <dialog id="profilesModal" class="modal">
+      <form method="dialog" class="modal-card wide">
+        <header class="modal-header">
+          <h2>Member Profiles</h2>
+          <button class="ghost">Close</button>
+        </header>
+        <div class="import-box">
+          <label>Upload profile JSON or text file <input id="profileUpload" type="file" accept=".json,.txt,.md" /></label>
+          <button id="importProfilesBtn" type="button">Import + AI Format</button>
+          <p class="meta">Import first. After formatting, fields below become editable for manual correction.</p>
+        </div>
+        <div id="memberProfiles" class="profiles"></div>
+        <button id="saveMembersBtn" type="button">Save Edited Profiles</button>
+      </form>
+    </dialog>
+
+    <dialog id="topicsModal" class="modal">
+      <form method="dialog" class="modal-card wide">
+        <header class="modal-header">
+          <h2>Generated Topics</h2>
+          <button class="ghost">Close</button>
+        </header>
+        <div id="topicList" class="topic-list muted">No topics generated yet.</div>
+      </form>
+    </dialog>
+
+    <dialog id="votingModal" class="modal">
+      <form method="dialog" class="modal-card">
+        <header class="modal-header">
+          <h2>Voting Result</h2>
+          <button class="ghost">Close</button>
+        </header>
+        <button id="closeVotingBtn" type="button">Close Voting</button>
+        <div id="votingResult" class="compact-list muted">Waiting for votes.</div>
+      </form>
+    </dialog>
+
+    <dialog id="documentsModal" class="modal">
+      <form method="dialog" class="modal-card">
+        <header class="modal-header">
+          <h2>Documents</h2>
+          <button class="ghost">Close</button>
+        </header>
+        <button id="generateDocsBtn" type="button">Generate Markdown Docs</button>
+        <div id="documentResult" class="compact-list muted">Markdown docs are created after voting.</div>
+      </form>
+    </dialog>
+
+    <dialog id="historyModal" class="modal">
+      <form method="dialog" class="modal-card">
+        <header class="modal-header">
+          <h2>History</h2>
+          <button class="ghost">Close</button>
+        </header>
+        <div id="historyList" class="compact-list muted">No history yet.</div>
+      </form>
+    </dialog>
+
+    <dialog id="todoModal" class="modal">
+      <form method="dialog" class="modal-card">
+        <header class="modal-header">
+          <h2>Future TODO</h2>
+          <button class="ghost">Close</button>
+        </header>
+        <div class="todo-grid">
+          <span>Real scheduler</span>
+          <span>Slack / Email / Calendar</span>
+          <span>SQLite or PostgreSQL</span>
+          <span>Topic quality checklist</span>
+          <span>Slide outline generation</span>
+          <span>Speaker notes</span>
+          <span>Auth and roles</span>
+          <span>Search historical topics</span>
+        </div>
+      </form>
+    </dialog>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/app.js"></script>

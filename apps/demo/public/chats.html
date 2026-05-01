@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Chat Panels</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="chats">
+    <nav class="topbar">
+      <strong>Team Member Voting</strong>
+      <div class="nav-actions">
+        <a class="nav-link" href="/" target="_blank">Admin</a>
+        <a class="nav-link" href="/feedback.html" target="_blank">Feedback View</a>
+        <span class="status-pill" id="socketStatus">Connecting...</span>
+      </div>
+    </nav>
+
+    <main class="chat-page">
+      <section>
+        <p class="eyebrow">User View</p>
+        <h1>4 User Chat Panels</h1>
+        <p class="meta">This page only handles notifications and voting. Feedback is collected after sharing on a separate view.</p>
+      </section>
+      <div id="userPanels" class="user-grid full"></div>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

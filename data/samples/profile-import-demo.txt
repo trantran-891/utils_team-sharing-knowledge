@@ -1,0 +1,11 @@
+Hải - Backend Developer
+Node.js, API, Database, system design. Goal: improve architecture discussion. Pain point: unclear service boundaries.
+
+An - QA Engineer
+Test design, automation, risk-based testing. Goal: improve release confidence. Pain point: late requirement changes.
+
+Minh - Frontend Developer
+HTML, CSS, JavaScript, frontend performance. Goal: maintainable UI. Pain point: unclear API contracts.
+
+Lan - Business Analyst
+Requirements, user flows, stakeholder mapping. Goal: better acceptance criteria. Pain point: hard to align technical tradeoffs.
