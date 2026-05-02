@@ -2,7 +2,7 @@
   {
     "id": "session_20260501",
     "date": "20260501",
-    "status": "documented",
+    "status": "scheduled",
     "selectedTopics": [
       {
         "id": "topic_01",
@@ -47,6 +47,824 @@
         "voteSummaryPath": "data/generated/topic/20260501/topic_02/vote_summary.md"
       }
     ],
-    "createdAt": "2026-05-01T08:58:08.429Z"
+    "createdAt": "2026-05-02T07:01:30.931Z",
+    "sharingDateTime": "Friday, 2026-05-08 16:00",
+    "message": "Documents are ready for Friday, 2026-05-08 16:00.",
+    "sessionDraft": {
+      "sessionId": "session-topic_01-2026-05-15",
+      "topicId": "topic_01",
+      "title": "System Design Basics for Feature Teams",
+      "scheduledFor": "2026-05-15T08:00:00.000Z",
+      "durationMinutes": 75,
+      "location": "Training Room 2 - Floor 5",
+      "brief": {
+        "topicId": "topic_01",
+        "title": "System Design Basics for Feature Teams",
+        "objective": "Help the team apply system design basics for feature teams in a way that reduces current delivery friction.",
+        "audience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "keyTakeaways": [
+          "Better design conversations reduce rework and make implementation plans clearer.",
+          "Use system design basics for feature teams to address one current team pain point.",
+          "Choose one practice to try in the next sprint."
+        ],
+        "prepNotes": "Bring at least one concrete example from the current team workflow. Keep the session practical and tie examples back to the selected topic. Demo voting selected \"System Design Basics for Feature Teams\" as the highest-voted topic.",
+        "agenda": {
+          "items": [
+            {
+              "title": "Context and why this matters now",
+              "durationMinutes": 8,
+              "notes": "Anchor System Design Basics for Feature Teams in the current team context and explain why it was selected."
+            },
+            {
+              "title": "Core concepts and examples",
+              "durationMinutes": 14,
+              "notes": "Explain System Design Basics for Feature Teams with practical examples and keep the content grounded in team reality."
+            },
+            {
+              "title": "Discussion or team exercise",
+              "durationMinutes": 25,
+              "notes": "Discuss how the team can adapt the ideas to one real workflow or pain point."
+            },
+            {
+              "title": "Actions and follow-up",
+              "durationMinutes": 8,
+              "notes": "Capture one next action, one owner, and one follow-up question."
+            }
+          ]
+        }
+      },
+      "slideOutline": {
+        "topicId": "topic_01",
+        "title": "System Design Basics for Feature Teams",
+        "slides": [
+          {
+            "slideNumber": 1,
+            "title": "System Design Basics for Feature Teams",
+            "bullets": [
+              "Session objective",
+              "Why this matters to our team",
+              "Expected outcome"
+            ],
+            "speakerNotes": "Help the team apply system design basics for feature teams in a way that reduces current delivery friction."
+          },
+          {
+            "slideNumber": 2,
+            "title": "Current Team Context",
+            "bullets": [
+              "Pain points",
+              "Knowledge gaps",
+              "Where friction appears"
+            ],
+            "speakerNotes": "Use concrete examples from the current team workflow."
+          },
+          {
+            "slideNumber": 3,
+            "title": "Core Concepts",
+            "bullets": [
+              "Better design conversations reduce rework and make implementation plans clearer.",
+              "Use system design basics for feature teams to address one current team pain point.",
+              "Choose one practice to try in the next sprint."
+            ],
+            "speakerNotes": "Keep this section practical and avoid tool-specific depth."
+          },
+          {
+            "slideNumber": 4,
+            "title": "Team Exercise",
+            "bullets": [
+              "Pick one real case",
+              "Apply the concept",
+              "Discuss expected improvement"
+            ],
+            "speakerNotes": "Facilitate discussion and capture decisions."
+          },
+          {
+            "slideNumber": 5,
+            "title": "Actions and Follow-up",
+            "bullets": [
+              "Chosen practice",
+              "Owner",
+              "Next topic suggestion"
+            ],
+            "speakerNotes": "End with a clear next step that can be reviewed later."
+          }
+        ]
+      },
+      "notifications": [
+        {
+          "channel": "email",
+          "subject": "Selected sharing topic: System Design Basics for Feature Teams",
+          "body": "The team selected \"System Design Basics for Feature Teams\" for the next sharing session. The workflow checked team availability and prepared a draft session at 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5.",
+          "recipients": [
+            "aaaaaaaaaaaaaaaaaaa@gmail.com",
+            "bbbbbbbbbbbbbbbbbbbbbbb@gmail.com"
+          ]
+        },
+        {
+          "channel": "slack",
+          "subject": "Upcoming sharing: System Design Basics for Feature Teams",
+          "body": "Draft Slack notify: \"System Design Basics for Feature Teams\" is planned for 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5. The slot was chosen from the current team availability draft.",
+          "recipients": [
+            "#platform-team"
+          ]
+        },
+        {
+          "channel": "calendar",
+          "subject": "Team Sharing: System Design Basics for Feature Teams",
+          "body": "Draft calendar event for \"System Design Basics for Feature Teams\" scheduled at 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5.",
+          "recipients": [
+            "engineering@example.com"
+          ]
+        },
+        {
+          "channel": "email",
+          "subject": "Sharing schedule confirmed: System Design Basics for Feature Teams",
+          "body": "Draft email: the team sharing for \"System Design Basics for Feature Teams\" is planned at 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5. Please review the brief and slide outline before the session.",
+          "recipients": [
+            "aaaaaaaaaaaaaaaaaaa@gmail.com",
+            "bbbbbbbbbbbbbbbbbbbbbbb@gmail.com"
+          ]
+        }
+      ],
+      "externalBooking": {
+        "provider": "google-oauth-personal",
+        "status": "draft",
+        "organizerEmail": "host.personal@gmail.com",
+        "attendeeEmails": [
+          "aaaaaaaaaaaaaaaaaaa@gmail.com",
+          "bbbbbbbbbbbbbbbbbbbbbbb@gmail.com"
+        ],
+        "candidateSlotStart": "2026-05-15T08:00:00.000Z",
+        "candidateSlotEnd": "2026-05-15T09:15:00.000Z",
+        "notes": [
+          "Dry run mode: no Google API requests were sent.",
+          "Use this mode to verify fixed schedule, attendee emails, location, and artifact shape before enabling personal Gmail booking."
+        ]
+      },
+      "sharingDay": "Friday"
+    },
+    "scheduledAt": "2026-05-02T07:01:31.148Z"
+  },
+  {
+    "id": "session_20260502-1777705292908",
+    "date": "20260502",
+    "cycleId": "20260502-1777705292908",
+    "status": "scheduled",
+    "selectedTopics": [
+      {
+        "id": "topic_01",
+        "title": "System Design Basics for Feature Teams",
+        "overview": "A practical introduction to system design decisions for small feature teams.",
+        "background": "The team is touching more services and needs a shared language for tradeoffs.",
+        "whyItMatters": "Better design conversations reduce rework and make implementation plans clearer.",
+        "difficulty": "Intermediate",
+        "expectedImpact": "High",
+        "targetAudience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "status": "documented",
+        "voteCount": 2,
+        "descriptionPath": "data/generated/topic/20260502/topic_01/description.md",
+        "selectedRank": 1,
+        "documentPath": "data/generated/topic/20260502/topic_01/final_document.md",
+        "voteSummaryPath": "data/generated/topic/20260502/topic_01/vote_summary.md"
+      }
+    ],
+    "createdAt": "2026-05-02T07:03:15.190Z",
+    "sharingDateTime": "Friday, 2026-05-08 16:00",
+    "message": "Documents are ready for Friday, 2026-05-08 16:00.",
+    "sessionDraft": {
+      "sessionId": "session-topic_01-2026-05-15",
+      "topicId": "topic_01",
+      "title": "System Design Basics for Feature Teams",
+      "scheduledFor": "2026-05-15T08:00:00.000Z",
+      "durationMinutes": 75,
+      "location": "Training Room 2 - Floor 5",
+      "brief": {
+        "topicId": "topic_01",
+        "title": "System Design Basics for Feature Teams",
+        "objective": "Help the team apply system design basics for feature teams in a way that reduces current delivery friction.",
+        "audience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "keyTakeaways": [
+          "Better design conversations reduce rework and make implementation plans clearer.",
+          "Use system design basics for feature teams to address one current team pain point.",
+          "Choose one practice to try in the next sprint."
+        ],
+        "prepNotes": "Bring at least one concrete example from the current team workflow. Keep the session practical and tie examples back to the selected topic. Demo voting selected \"System Design Basics for Feature Teams\" as the highest-voted topic.",
+        "agenda": {
+          "items": [
+            {
+              "title": "Context and why this matters now",
+              "durationMinutes": 8,
+              "notes": "Anchor System Design Basics for Feature Teams in the current team context and explain why it was selected."
+            },
+            {
+              "title": "Core concepts and examples",
+              "durationMinutes": 14,
+              "notes": "Explain System Design Basics for Feature Teams with practical examples and keep the content grounded in team reality."
+            },
+            {
+              "title": "Discussion or team exercise",
+              "durationMinutes": 25,
+              "notes": "Discuss how the team can adapt the ideas to one real workflow or pain point."
+            },
+            {
+              "title": "Actions and follow-up",
+              "durationMinutes": 8,
+              "notes": "Capture one next action, one owner, and one follow-up question."
+            }
+          ]
+        }
+      },
+      "slideOutline": {
+        "topicId": "topic_01",
+        "title": "System Design Basics for Feature Teams",
+        "slides": [
+          {
+            "slideNumber": 1,
+            "title": "System Design Basics for Feature Teams",
+            "bullets": [
+              "Session objective",
+              "Why this matters to our team",
+              "Expected outcome"
+            ],
+            "speakerNotes": "Help the team apply system design basics for feature teams in a way that reduces current delivery friction."
+          },
+          {
+            "slideNumber": 2,
+            "title": "Current Team Context",
+            "bullets": [
+              "Pain points",
+              "Knowledge gaps",
+              "Where friction appears"
+            ],
+            "speakerNotes": "Use concrete examples from the current team workflow."
+          },
+          {
+            "slideNumber": 3,
+            "title": "Core Concepts",
+            "bullets": [
+              "Better design conversations reduce rework and make implementation plans clearer.",
+              "Use system design basics for feature teams to address one current team pain point.",
+              "Choose one practice to try in the next sprint."
+            ],
+            "speakerNotes": "Keep this section practical and avoid tool-specific depth."
+          },
+          {
+            "slideNumber": 4,
+            "title": "Team Exercise",
+            "bullets": [
+              "Pick one real case",
+              "Apply the concept",
+              "Discuss expected improvement"
+            ],
+            "speakerNotes": "Facilitate discussion and capture decisions."
+          },
+          {
+            "slideNumber": 5,
+            "title": "Actions and Follow-up",
+            "bullets": [
+              "Chosen practice",
+              "Owner",
+              "Next topic suggestion"
+            ],
+            "speakerNotes": "End with a clear next step that can be reviewed later."
+          }
+        ]
+      },
+      "notifications": [
+        {
+          "channel": "email",
+          "subject": "Selected sharing topic: System Design Basics for Feature Teams",
+          "body": "The team selected \"System Design Basics for Feature Teams\" for the next sharing session. The workflow checked team availability and prepared a draft session at 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5.",
+          "recipients": [
+            "aaaaaaaaaaaaaaaaaaa@gmail.com",
+            "bbbbbbbbbbbbbbbbbbbbbbb@gmail.com"
+          ]
+        },
+        {
+          "channel": "slack",
+          "subject": "Upcoming sharing: System Design Basics for Feature Teams",
+          "body": "Draft Slack notify: \"System Design Basics for Feature Teams\" is planned for 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5. The slot was chosen from the current team availability draft.",
+          "recipients": [
+            "#platform-team"
+          ]
+        },
+        {
+          "channel": "calendar",
+          "subject": "Team Sharing: System Design Basics for Feature Teams",
+          "body": "Draft calendar event for \"System Design Basics for Feature Teams\" scheduled at 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5.",
+          "recipients": [
+            "engineering@example.com"
+          ]
+        },
+        {
+          "channel": "email",
+          "subject": "Sharing schedule confirmed: System Design Basics for Feature Teams",
+          "body": "Draft email: the team sharing for \"System Design Basics for Feature Teams\" is planned at 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5. Please review the brief and slide outline before the session.",
+          "recipients": [
+            "aaaaaaaaaaaaaaaaaaa@gmail.com",
+            "bbbbbbbbbbbbbbbbbbbbbbb@gmail.com"
+          ]
+        }
+      ],
+      "externalBooking": {
+        "provider": "google-oauth-personal",
+        "status": "draft",
+        "organizerEmail": "host.personal@gmail.com",
+        "attendeeEmails": [
+          "aaaaaaaaaaaaaaaaaaa@gmail.com",
+          "bbbbbbbbbbbbbbbbbbbbbbb@gmail.com"
+        ],
+        "candidateSlotStart": "2026-05-15T08:00:00.000Z",
+        "candidateSlotEnd": "2026-05-15T09:15:00.000Z",
+        "notes": [
+          "Dry run mode: no Google API requests were sent.",
+          "Use this mode to verify fixed schedule, attendee emails, location, and artifact shape before enabling personal Gmail booking."
+        ]
+      },
+      "sharingDay": "Friday"
+    },
+    "scheduledAt": "2026-05-02T07:03:15.409Z"
+  },
+  {
+    "id": "session_20260502-1777706200411",
+    "date": "20260502",
+    "cycleId": "20260502-1777706200411",
+    "status": "scheduled",
+    "selectedTopics": [
+      {
+        "id": "topic_01",
+        "title": "System Design Basics for Feature Teams",
+        "overview": "A practical introduction to system design decisions for small feature teams.",
+        "background": "The team is touching more services and needs a shared language for tradeoffs.",
+        "whyItMatters": "Better design conversations reduce rework and make implementation plans clearer.",
+        "difficulty": "Intermediate",
+        "expectedImpact": "High",
+        "targetAudience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "status": "documented",
+        "voteCount": 2,
+        "descriptionPath": "data/generated/topic/20260502/topic_01/description.md",
+        "selectedRank": 1,
+        "documentPath": "data/generated/topic/20260502/topic_01/final_document.md",
+        "voteSummaryPath": "data/generated/topic/20260502/topic_01/vote_summary.md"
+      },
+      {
+        "id": "topic_03",
+        "title": "Frontend Performance Checks Without Heavy Tooling",
+        "overview": "A lightweight checklist for measuring and improving perceived UI speed.",
+        "background": "The demo product has simple pages, but performance habits should start early.",
+        "whyItMatters": "Small frontend decisions compound into user-visible latency and instability.",
+        "difficulty": "Beginner",
+        "expectedImpact": "Medium",
+        "targetAudience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "status": "documented",
+        "voteCount": 1,
+        "descriptionPath": "data/generated/topic/20260502/topic_03/description.md",
+        "selectedRank": 2,
+        "documentPath": "data/generated/topic/20260502/topic_03/final_document.md",
+        "voteSummaryPath": "data/generated/topic/20260502/topic_03/vote_summary.md"
+      },
+      {
+        "id": "topic_05",
+        "title": "Debugging Playbooks for Common Production Issues",
+        "overview": "Create repeatable incident debugging steps for API, database, and UI issues.",
+        "background": "Shared playbooks help less experienced members contribute during incidents.",
+        "whyItMatters": "The team can reduce mean time to understand and recover from failures.",
+        "difficulty": "Intermediate",
+        "expectedImpact": "High",
+        "targetAudience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "status": "documented",
+        "voteCount": 1,
+        "descriptionPath": "data/generated/topic/20260502/topic_05/description.md",
+        "selectedRank": 3,
+        "documentPath": "data/generated/topic/20260502/topic_05/final_document.md",
+        "voteSummaryPath": "data/generated/topic/20260502/topic_05/vote_summary.md"
+      }
+    ],
+    "createdAt": "2026-05-02T07:16:53.244Z",
+    "sharingDateTime": "Friday, 2026-05-08 16:00",
+    "message": "Documents are ready for Friday, 2026-05-08 16:00.",
+    "sessionDraft": {
+      "sessionId": "session-topic_01-2026-05-15",
+      "topicId": "topic_01",
+      "title": "System Design Basics for Feature Teams",
+      "scheduledFor": "2026-05-15T08:00:00.000Z",
+      "durationMinutes": 75,
+      "location": "Training Room 2 - Floor 5",
+      "brief": {
+        "topicId": "topic_01",
+        "title": "System Design Basics for Feature Teams",
+        "objective": "Help the team apply system design basics for feature teams in a way that reduces current delivery friction.",
+        "audience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "keyTakeaways": [
+          "Better design conversations reduce rework and make implementation plans clearer.",
+          "Use system design basics for feature teams to address one current team pain point.",
+          "Choose one practice to try in the next sprint."
+        ],
+        "prepNotes": "Bring at least one concrete example from the current team workflow. Keep the session practical and tie examples back to the selected topic. Demo voting selected \"System Design Basics for Feature Teams\" as the highest-voted topic.",
+        "agenda": {
+          "items": [
+            {
+              "title": "Context and why this matters now",
+              "durationMinutes": 8,
+              "notes": "Anchor System Design Basics for Feature Teams in the current team context and explain why it was selected."
+            },
+            {
+              "title": "Core concepts and examples",
+              "durationMinutes": 14,
+              "notes": "Explain System Design Basics for Feature Teams with practical examples and keep the content grounded in team reality."
+            },
+            {
+              "title": "Discussion or team exercise",
+              "durationMinutes": 25,
+              "notes": "Discuss how the team can adapt the ideas to one real workflow or pain point."
+            },
+            {
+              "title": "Actions and follow-up",
+              "durationMinutes": 8,
+              "notes": "Capture one next action, one owner, and one follow-up question."
+            }
+          ]
+        }
+      },
+      "slideOutline": {
+        "topicId": "topic_01",
+        "title": "System Design Basics for Feature Teams",
+        "slides": [
+          {
+            "slideNumber": 1,
+            "title": "System Design Basics for Feature Teams",
+            "bullets": [
+              "Session objective",
+              "Why this matters to our team",
+              "Expected outcome"
+            ],
+            "speakerNotes": "Help the team apply system design basics for feature teams in a way that reduces current delivery friction."
+          },
+          {
+            "slideNumber": 2,
+            "title": "Current Team Context",
+            "bullets": [
+              "Pain points",
+              "Knowledge gaps",
+              "Where friction appears"
+            ],
+            "speakerNotes": "Use concrete examples from the current team workflow."
+          },
+          {
+            "slideNumber": 3,
+            "title": "Core Concepts",
+            "bullets": [
+              "Better design conversations reduce rework and make implementation plans clearer.",
+              "Use system design basics for feature teams to address one current team pain point.",
+              "Choose one practice to try in the next sprint."
+            ],
+            "speakerNotes": "Keep this section practical and avoid tool-specific depth."
+          },
+          {
+            "slideNumber": 4,
+            "title": "Team Exercise",
+            "bullets": [
+              "Pick one real case",
+              "Apply the concept",
+              "Discuss expected improvement"
+            ],
+            "speakerNotes": "Facilitate discussion and capture decisions."
+          },
+          {
+            "slideNumber": 5,
+            "title": "Actions and Follow-up",
+            "bullets": [
+              "Chosen practice",
+              "Owner",
+              "Next topic suggestion"
+            ],
+            "speakerNotes": "End with a clear next step that can be reviewed later."
+          }
+        ]
+      },
+      "notifications": [
+        {
+          "channel": "email",
+          "subject": "Selected sharing topic: System Design Basics for Feature Teams",
+          "body": "The team selected \"System Design Basics for Feature Teams\" for the next sharing session. The workflow checked team availability and prepared a draft session at 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5.",
+          "recipients": [
+            "aaaaaaaaaaaaaaaaaaa@gmail.com",
+            "bbbbbbbbbbbbbbbbbbbbbbb@gmail.com"
+          ]
+        },
+        {
+          "channel": "slack",
+          "subject": "Upcoming sharing: System Design Basics for Feature Teams",
+          "body": "Draft Slack notify: \"System Design Basics for Feature Teams\" is planned for 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5. The slot was chosen from the current team availability draft.",
+          "recipients": [
+            "#platform-team"
+          ]
+        },
+        {
+          "channel": "calendar",
+          "subject": "Team Sharing: System Design Basics for Feature Teams",
+          "body": "Draft calendar event for \"System Design Basics for Feature Teams\" scheduled at 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5.",
+          "recipients": [
+            "engineering@example.com"
+          ]
+        },
+        {
+          "channel": "email",
+          "subject": "Sharing schedule confirmed: System Design Basics for Feature Teams",
+          "body": "Draft email: the team sharing for \"System Design Basics for Feature Teams\" is planned at 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5. Please review the brief and slide outline before the session.",
+          "recipients": [
+            "aaaaaaaaaaaaaaaaaaa@gmail.com",
+            "bbbbbbbbbbbbbbbbbbbbbbb@gmail.com"
+          ]
+        }
+      ],
+      "externalBooking": {
+        "provider": "google-oauth-personal",
+        "status": "draft",
+        "organizerEmail": "host.personal@gmail.com",
+        "attendeeEmails": [
+          "aaaaaaaaaaaaaaaaaaa@gmail.com",
+          "bbbbbbbbbbbbbbbbbbbbbbb@gmail.com"
+        ],
+        "candidateSlotStart": "2026-05-15T08:00:00.000Z",
+        "candidateSlotEnd": "2026-05-15T09:15:00.000Z",
+        "notes": [
+          "Dry run mode: no Google API requests were sent.",
+          "Use this mode to verify fixed schedule, attendee emails, location, and artifact shape before enabling personal Gmail booking."
+        ]
+      },
+      "sharingDay": "Friday"
+    },
+    "scheduledAt": "2026-05-02T07:16:53.458Z"
+  },
+  {
+    "id": "session_20260502-1777706231500",
+    "date": "20260502",
+    "cycleId": "20260502-1777706231500",
+    "status": "scheduled",
+    "selectedTopics": [
+      {
+        "id": "topic_05",
+        "title": "Debugging Playbooks for Common Production Issues",
+        "overview": "Create repeatable incident debugging steps for API, database, and UI issues.",
+        "background": "Shared playbooks help less experienced members contribute during incidents.",
+        "whyItMatters": "The team can reduce mean time to understand and recover from failures.",
+        "difficulty": "Intermediate",
+        "expectedImpact": "High",
+        "targetAudience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "status": "documented",
+        "voteCount": 2,
+        "descriptionPath": "data/generated/topic/20260502/topic_05/description.md",
+        "selectedRank": 1,
+        "documentPath": "data/generated/topic/20260502/topic_05/final_document.md",
+        "voteSummaryPath": "data/generated/topic/20260502/topic_05/vote_summary.md"
+      },
+      {
+        "id": "topic_02",
+        "title": "Risk-Based Testing Before Release",
+        "overview": "How QA, engineers, and BA can identify the riskiest flows before a release.",
+        "background": "Recent work needs faster confidence without expanding the full regression scope.",
+        "whyItMatters": "The team can spend testing time where defects would hurt users most.",
+        "difficulty": "Beginner",
+        "expectedImpact": "High",
+        "targetAudience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "status": "documented",
+        "voteCount": 1,
+        "descriptionPath": "data/generated/topic/20260502/topic_02/description.md",
+        "selectedRank": 2,
+        "documentPath": "data/generated/topic/20260502/topic_02/final_document.md",
+        "voteSummaryPath": "data/generated/topic/20260502/topic_02/vote_summary.md"
+      },
+      {
+        "id": "topic_04",
+        "title": "Writing Acceptance Criteria That Engineers Can Build From",
+        "overview": "How to turn product intent into examples, edge cases, and testable outcomes.",
+        "background": "The team often needs clarification during implementation and test planning.",
+        "whyItMatters": "Sharper acceptance criteria reduce handoff friction across BA, dev, and QA.",
+        "difficulty": "Beginner",
+        "expectedImpact": "High",
+        "targetAudience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "status": "documented",
+        "voteCount": 1,
+        "descriptionPath": "data/generated/topic/20260502/topic_04/description.md",
+        "selectedRank": 3,
+        "documentPath": "data/generated/topic/20260502/topic_04/final_document.md",
+        "voteSummaryPath": "data/generated/topic/20260502/topic_04/vote_summary.md"
+      }
+    ],
+    "createdAt": "2026-05-02T07:42:57.092Z",
+    "sharingDateTime": "Friday, 2026-05-08 16:00",
+    "message": "Documents are ready for Friday, 2026-05-08 16:00.",
+    "sessionDraft": {
+      "sessionId": "session-topic_05-2026-05-15",
+      "topicId": "topic_05",
+      "title": "Debugging Playbooks for Common Production Issues",
+      "scheduledFor": "2026-05-15T08:00:00.000Z",
+      "durationMinutes": 75,
+      "location": "Training Room 2 - Floor 5",
+      "brief": {
+        "topicId": "topic_05",
+        "title": "Debugging Playbooks for Common Production Issues",
+        "objective": "Help the team apply debugging playbooks for common production issues in a way that reduces current delivery friction.",
+        "audience": [
+          "Backend Developer",
+          "QA Engineer",
+          "Frontend Developer",
+          "Business Analyst"
+        ],
+        "keyTakeaways": [
+          "The team can reduce mean time to understand and recover from failures.",
+          "Use debugging playbooks for common production issues to address one current team pain point.",
+          "Choose one practice to try in the next sprint."
+        ],
+        "prepNotes": "Bring at least one concrete example from the current team workflow. Keep the session practical and tie examples back to the selected topic. Demo voting selected \"Debugging Playbooks for Common Production Issues\" as the highest-voted topic.",
+        "agenda": {
+          "items": [
+            {
+              "title": "Context and why this matters now",
+              "durationMinutes": 8,
+              "notes": "Anchor Debugging Playbooks for Common Production Issues in the current team context and explain why it was selected."
+            },
+            {
+              "title": "Core concepts and examples",
+              "durationMinutes": 14,
+              "notes": "Explain Debugging Playbooks for Common Production Issues with practical examples and keep the content grounded in team reality."
+            },
+            {
+              "title": "Discussion or team exercise",
+              "durationMinutes": 25,
+              "notes": "Discuss how the team can adapt the ideas to one real workflow or pain point."
+            },
+            {
+              "title": "Actions and follow-up",
+              "durationMinutes": 8,
+              "notes": "Capture one next action, one owner, and one follow-up question."
+            }
+          ]
+        }
+      },
+      "slideOutline": {
+        "topicId": "topic_05",
+        "title": "Debugging Playbooks for Common Production Issues",
+        "slides": [
+          {
+            "slideNumber": 1,
+            "title": "Debugging Playbooks for Common Production Issues",
+            "bullets": [
+              "Session objective",
+              "Why this matters to our team",
+              "Expected outcome"
+            ],
+            "speakerNotes": "Help the team apply debugging playbooks for common production issues in a way that reduces current delivery friction."
+          },
+          {
+            "slideNumber": 2,
+            "title": "Current Team Context",
+            "bullets": [
+              "Pain points",
+              "Knowledge gaps",
+              "Where friction appears"
+            ],
+            "speakerNotes": "Use concrete examples from the current team workflow."
+          },
+          {
+            "slideNumber": 3,
+            "title": "Core Concepts",
+            "bullets": [
+              "The team can reduce mean time to understand and recover from failures.",
+              "Use debugging playbooks for common production issues to address one current team pain point.",
+              "Choose one practice to try in the next sprint."
+            ],
+            "speakerNotes": "Keep this section practical and avoid tool-specific depth."
+          },
+          {
+            "slideNumber": 4,
+            "title": "Team Exercise",
+            "bullets": [
+              "Pick one real case",
+              "Apply the concept",
+              "Discuss expected improvement"
+            ],
+            "speakerNotes": "Facilitate discussion and capture decisions."
+          },
+          {
+            "slideNumber": 5,
+            "title": "Actions and Follow-up",
+            "bullets": [
+              "Chosen practice",
+              "Owner",
+              "Next topic suggestion"
+            ],
+            "speakerNotes": "End with a clear next step that can be reviewed later."
+          }
+        ]
+      },
+      "notifications": [
+        {
+          "channel": "email",
+          "subject": "Selected sharing topic: Debugging Playbooks for Common Production Issues",
+          "body": "The team selected \"Debugging Playbooks for Common Production Issues\" for the next sharing session. The workflow checked team availability and prepared a draft session at 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5.",
+          "recipients": [
+            "ngoctran080901@gmail.com",
+            "hongngoctranle080901@gmail.com"
+          ]
+        },
+        {
+          "channel": "slack",
+          "subject": "Upcoming sharing: Debugging Playbooks for Common Production Issues",
+          "body": "Draft Slack notify: \"Debugging Playbooks for Common Production Issues\" is planned for 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5. The slot was chosen from the current team availability draft.",
+          "recipients": [
+            "#platform-team"
+          ]
+        },
+        {
+          "channel": "calendar",
+          "subject": "Team Sharing: Debugging Playbooks for Common Production Issues",
+          "body": "Draft calendar event for \"Debugging Playbooks for Common Production Issues\" scheduled at 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5.",
+          "recipients": [
+            "engineering@example.com"
+          ]
+        },
+        {
+          "channel": "email",
+          "subject": "Sharing schedule confirmed: Debugging Playbooks for Common Production Issues",
+          "body": "Draft email: the team sharing for \"Debugging Playbooks for Common Production Issues\" is planned at 2026-05-15T08:00:00.000Z in Training Room 2 - Floor 5. Please review the brief and slide outline before the session.",
+          "recipients": [
+            "ngoctran080901@gmail.com",
+            "hongngoctranle080901@gmail.com"
+          ]
+        }
+      ],
+      "externalBooking": {
+        "provider": "google-workspace",
+        "status": "booked",
+        "organizerEmail": "lengoctran080901@gmail.com",
+        "attendeeEmails": [
+          "ngoctran080901@gmail.com",
+          "hongngoctranle080901@gmail.com"
+        ],
+        "roomResourceEmail": "optional-room-or-shared-calendar@gmail.com",
+        "calendarEventId": "eq289f9oem2p74ssi7u5nh15nk",
+        "calendarHtmlLink": "https://www.google.com/calendar/event?eid=ZXEyODlmOW9lbTJwNzRzc2k3dTVuaDE1bmsgbGVuZ29jdHJhbjA4MDkwMUBt",
+        "meetLink": "https://meet.google.com/uuf-ttzb-rsw",
+        "candidateSlotStart": "2026-05-15T08:00:00.000Z",
+        "candidateSlotEnd": "2026-05-15T09:15:00.000Z",
+        "notes": [
+          "Booked via personal Google OAuth token using a fixed team sharing schedule.",
+          "Configured room resource email was attached to the event."
+        ]
+      },
+      "sharingDay": "Friday"
+    },
+    "scheduledAt": "2026-05-02T07:42:59.560Z"
   }
 ]

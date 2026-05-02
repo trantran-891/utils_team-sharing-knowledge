@@ -24,6 +24,9 @@ export function createSocketNotifier(io) {
     docsCreated(payload) {
       emit("session:docs-created", payload);
     },
+    sessionScheduled(payload) {
+      emit("session:scheduled", payload);
+    },
     feedbackUpdated(payload) {
       emit("feedback:updated", payload);
     }

@@ -19,13 +19,49 @@ async function api(path, options = {}) {
     headers: { "Content-Type": "application/json" },
     ...options
   });
-  if (!response.ok) throw new Error(await response.text());
+  if (!response.ok) {
+    const raw = await response.text();
+    let message = raw;
+    try {
+      const parsed = JSON.parse(raw);
+      message = parsed.error || parsed.message || raw;
+    } catch {
+      message = raw;
+    }
+    const error = new Error(message || `Request failed with status ${response.status}`);
+    error.status = response.status;
+    throw error;
+  }
   return response.json();
 }
 
 function setText(selector, text) {
   const element = $(selector);
   if (element) element.textContent = text;
+}
+
+function setMainStatus(message, type = "neutral", loading = false) {
+  const element = $("#mainStatus");
+  if (!element) return;
+  element.textContent = message;
+  element.className = "status-box";
+  element.classList.add(`status-${type}`);
+  if (loading) element.classList.add("is-loading");
+}
+
+function classifyError(error) {
+  const message = error?.message || "Unexpected error";
+  const status = error?.status;
+  const isBadRequest = status === 400 || /bad request|\b400\b/i.test(message);
+  return {
+    type: isBadRequest ? "warning" : "error",
+    message
+  };
+}
+
+function setActionDisabled(selector, disabled) {
+  const button = $(selector);
+  if (button) button.disabled = disabled;
 }
 
 function setStatus(text) {
@@ -97,6 +133,31 @@ function renderPreparedTopicsNotice() {
   `;
 }
 
+function renderScheduleNotice() {
+  const draft = state.latestSession?.sessionDraft;
+  if (!draft) return "";
+  const bookingStatus = draft.externalBooking?.status || "draft";
+  const statusLabel = bookingStatus === "booked" ? "Admin notified team" : "Draft prepared for admin review";
+  return `
+    <section class="sharing-notice scheduled">
+      <div class="notice-kicker">${statusLabel}</div>
+      <h4>${new Date(draft.scheduledFor).toLocaleString()}</h4>
+      <p>${draft.title} will be shared at <strong>${draft.location}</strong>.</p>
+      <div class="priority-list">
+        ${(draft.notifications || []).map((item) => `
+          <div class="priority-item">
+            <span class="priority-badge">${item.channel}</span>
+            <div>
+              <strong>${item.subject}</strong>
+              <small>${item.recipients.join(", ")}</small>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
 function renderSettings() {
   if (page !== "admin") return;
   const settings = state.settings || {};
@@ -114,6 +175,7 @@ function renderMembers() {
       <article class="profile" data-member="${member.id}">
         <h3>${member.name}</h3>
         <label>Name <input data-field="name" value="${member.name}" /></label>
+        <label>Email <input data-field="email" value="${member.email || ""}" /></label>
         <label>Role <input data-field="role" value="${member.role}" /></label>
         <label>Level <input data-field="level" value="${member.level}" /></label>
         <label>Hard skills <input data-field="hardSkills" value="${csv(member.hardSkills)}" /></label>
@@ -144,6 +206,7 @@ function renderTopics() {
     }
     renderVoting();
     renderDocuments();
+    renderSchedule();
   }
 
   if (page === "chats") renderUserPanels();
@@ -174,6 +237,34 @@ function renderDocuments(session = null) {
       <div class="meta">${topic.documentPath || "Document pending"}</div>
     </div>
   `).join("") : "Markdown docs are created after voting.";
+}
+
+function renderSchedule(session = null) {
+  if (page !== "admin") return;
+  const target = $("#scheduleResult");
+  if (!target) return;
+  const active = session || state.latestSession;
+  const draft = active?.sessionDraft;
+  const bookingStatus = draft?.externalBooking?.status || "draft";
+  const statusLabel = bookingStatus === "booked" ? "Notification sent by admin." : "Draft prepared. Admin can send notification when ready.";
+  target.innerHTML = draft ? `
+    <div class="list-item">
+      <strong>${draft.title}</strong>
+      <div class="meta">${new Date(draft.scheduledFor).toLocaleString()} · ${draft.location}</div>
+      <div class="meta">Status: ${bookingStatus}</div>
+    </div>
+    <div class="list-item">
+      <strong>Workflow</strong>
+      <div class="meta">${statusLabel}</div>
+    </div>
+    ${(draft.notifications || []).map((item) => `
+      <div class="list-item">
+        <strong>${item.channel.toUpperCase()}</strong>
+        <div class="meta">${item.subject}</div>
+        <div class="meta">${item.recipients.join(", ")}</div>
+      </div>
+    `).join("")}
+  ` : "Scheduling runs after the winning topic is selected.";
 }
 
 function renderHistory() {
@@ -216,6 +307,7 @@ function renderUserPanel(member, topics, votes) {
         ${chatInitialLogMarkup()}
       </div>
       ${renderPreparedTopicsNotice()}
+      ${renderScheduleNotice()}
       ${vote ? `
         <div class="vote-alert">Selected: <strong>${selectedTopic?.title || vote.topicId}</strong></div>
         ${docsReady ? `<div class="docs-alert">Documents are ready. See priority list above.</div>` : ""}
@@ -283,6 +375,7 @@ async function refresh() {
   renderMembers();
   renderTopics();
   renderHistory();
+  renderSchedule();
   renderFeedbackList();
 }
 
@@ -305,6 +398,7 @@ async function saveMembers() {
   const members = $$("[data-member]").map((card) => ({
     id: card.dataset.member,
     name: card.querySelector('[data-field="name"]').value,
+    email: card.querySelector('[data-field="email"]').value,
     role: card.querySelector('[data-field="role"]').value,
     level: card.querySelector('[data-field="level"]').value,
     hardSkills: splitCsv(card.querySelector('[data-field="hardSkills"]').value),
@@ -335,10 +429,54 @@ async function importProfiles() {
 }
 
 async function generateAndNotify() {
-  setText("#mainStatus", "Generating topics and sending notifications...");
-  state.currentTopics = await api("/api/topics/generate-and-notify", { method: "POST" });
-  renderTopics();
-  setText("#mainStatus", `Generated ${state.currentTopics.topics.length} topics and notified members.`);
+  try {
+    setMainStatus("Generating topics and sending notifications...", "neutral", true);
+    state.currentTopics = await api("/api/topics/generate-and-notify", { method: "POST" });
+    renderTopics();
+    setMainStatus(`Generated ${state.currentTopics.topics.length} topics and notified members.`, "success");
+  } catch (error) {
+    const details = classifyError(error);
+    setMainStatus(details.message, details.type);
+  }
+}
+
+async function prepareScheduleDraft() {
+  try {
+    setMainStatus("Preparing schedule draft from the winning topic...", "neutral", true);
+    const session = await api("/api/sessions/run-post-vote", { method: "POST" });
+    if (session) {
+      state.latestSession = session;
+      renderSchedule(session);
+      renderDocuments(session);
+      renderUserPanels();
+      renderFeedbackForm();
+    }
+    setMainStatus("Schedule draft is ready for admin review.", "success");
+  } catch (error) {
+    const details = classifyError(error);
+    setMainStatus(details.message, details.type);
+  }
+}
+
+async function sendNotifications() {
+  try {
+    setActionDisabled("#sendNotificationBtn", true);
+    setMainStatus("Admin is sending the final schedule notification...", "neutral", true);
+    const session = await api("/api/sessions/send-notifications", { method: "POST" });
+    if (session) {
+      state.latestSession = session;
+      renderSchedule(session);
+      renderDocuments(session);
+      renderUserPanels();
+      renderFeedbackForm();
+    }
+    setMainStatus("Final schedule notification was sent by admin.", "success");
+  } catch (error) {
+    const details = classifyError(error);
+    setMainStatus(details.message, details.type);
+  } finally {
+    setActionDisabled("#sendNotificationBtn", false);
+  }
 }
 
 async function submitVote(userId) {
@@ -376,14 +514,28 @@ function bindAdmin() {
   $("#saveMembersBtn")?.addEventListener("click", saveMembers);
   $("#importProfilesBtn")?.addEventListener("click", importProfiles);
   $("#closeVotingBtn")?.addEventListener("click", async () => {
-    state.currentTopics = await api("/api/votes/close", { method: "POST" });
-    renderTopics();
+    try {
+      setActionDisabled("#closeVotingBtn", true);
+      setMainStatus("Closing voting and sending the final sharing notification...", "neutral", true);
+      state.currentTopics = await api("/api/votes/close", { method: "POST" });
+      await refresh();
+      renderTopics();
+      setMainStatus("Voting closed. Final sharing notification was sent to users.", "success");
+    } catch (error) {
+      const details = classifyError(error);
+      setMainStatus(details.message, details.type);
+    } finally {
+      $("#votingModal")?.close();
+      setActionDisabled("#closeVotingBtn", false);
+    }
   });
   $("#generateDocsBtn")?.addEventListener("click", async () => {
     const session = await api("/api/docs/generate", { method: "POST" });
     state.sessions.push(session);
     renderDocuments(session);
   });
+  $("#prepareScheduleBtn")?.addEventListener("click", prepareScheduleDraft);
+  $("#sendNotificationBtn")?.addEventListener("click", sendNotifications);
 }
 
 function bindFeedback() {
@@ -406,6 +558,9 @@ socket.on("vote:updated", (payload) => {
   state.currentTopics = payload;
   renderTopics();
   state.members.forEach((member) => addLog(member.id, payload.lastVote?.message || "Vote result updated."));
+  if (payload.votingReadyForClose) {
+    setMainStatus(payload.message || "All members have voted. Admin can now close voting.", "warning");
+  }
 });
 socket.on("voting:closed", (payload) => {
   state.currentTopics = payload;
@@ -415,6 +570,7 @@ socket.on("voting:closed", (payload) => {
 socket.on("session:docs-created", (payload) => {
   state.latestSession = payload;
   renderDocuments(payload);
+  renderSchedule(payload);
   renderUserPanels();
   const topics = payload.selectedTopics
     ?.slice()
@@ -426,6 +582,19 @@ socket.on("session:docs-created", (payload) => {
     if (topics) addLog(member.id, `Prepared topics: ${topics}`);
   });
 });
+socket.on("session:scheduled", (payload) => {
+  state.latestSession = payload;
+  renderDocuments(payload);
+  renderSchedule(payload);
+  renderUserPanels();
+  renderFeedbackForm();
+  const when = new Date(payload.sessionDraft?.scheduledFor).toLocaleString();
+  const bookingStatus = payload.sessionDraft?.externalBooking?.status;
+  const message = bookingStatus === "booked"
+    ? `Admin sent the sharing schedule for ${when} at ${payload.sessionDraft?.location}.`
+    : `Sharing draft prepared for ${when} at ${payload.sessionDraft?.location}.`;
+  state.members.forEach((member) => addLog(member.id, message));
+});
 socket.on("feedback:updated", (payload) => {
   state.feedback = payload.feedback;
   renderFeedbackList();
@@ -436,6 +605,6 @@ if (page === "feedback") bindFeedback();
 
 refresh().catch((error) => {
   console.error(error);
-  setText("#mainStatus", "Initial load failed.");
+  setMainStatus("Initial load failed.", "error");
   setStatus("Initial load failed");
 });

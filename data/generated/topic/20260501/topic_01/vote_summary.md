@@ -2,4 +2,4 @@
 
 Total votes: 1
 
-- user_01: Useful for current architecture work
+- user_01: Architecture discussion

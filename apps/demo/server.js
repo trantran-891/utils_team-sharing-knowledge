@@ -1,5 +1,6 @@
 import express from "express";
 import http from "node:http";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { Server } from "socket.io";
 import { fileURLToPath } from "node:url";
@@ -8,7 +9,8 @@ import { addFeedback, readFeedback } from "../../packages/demo-feedback/feedback
 import { formatImportedProfiles } from "../../packages/demo-profile/profileFormatter.js";
 import { readMembers, upsertMember, writeMembers } from "../../packages/demo-profile/memberStore.js";
 import { createSocketNotifier } from "../../packages/demo-notification/socketNotifier.js";
-import { completeSession, generateFinalDocuments, readSessions } from "../../packages/demo-session/sessionStore.js";
+import { runPostVoteScheduling } from "../../packages/demo-session/postVoteAutomation.js";
+import { attachSessionDraft, completeSession, generateFinalDocuments, readSessions } from "../../packages/demo-session/sessionStore.js";
 import { readSettings, writeSettings } from "../../packages/demo-settings/settingsStore.js";
 import { generateWeeklyTopics } from "../../packages/demo-topic-generator/index.js";
 import { readCurrentTopics, readTopicHistory, writeCurrentTopics } from "../../packages/demo-topic-generator/topicStore.js";
@@ -22,6 +24,11 @@ const io = new Server(server);
 const notifier = createSocketNotifier(io);
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || "127.0.0.1";
+const draftAutomationConfigPath = process.env.DEMO_AUTOMATION_DRAFT_CONFIG
+  || process.env.DEMO_AUTOMATION_CONFIG
+  || "configs/google-oauth-personal-post-voting-dry-run.json";
+const liveAutomationConfigPath = process.env.DEMO_AUTOMATION_LIVE_CONFIG
+  || "configs/google-oauth-personal-post-voting-live.json";
 const votingAutomation = new Set();
 
 app.use(express.json({ limit: "1mb" }));
@@ -33,7 +40,10 @@ function asyncHandler(handler) {
       await handler(req, res);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: error.message || "Unexpected server error" });
+      const message = error?.message || "Unexpected server error";
+      const lower = String(message).toLowerCase();
+      const statusCode = lower.includes("bad request") || /\b400\b/.test(String(message)) ? 400 : 500;
+      res.status(statusCode).json({ error: message });
     }
   };
 }
@@ -118,19 +128,17 @@ app.post("/api/votes", asyncHandler(async (req, res) => {
 
 app.post("/api/votes/close", asyncHandler(async (_req, res) => {
   const result = await closeVoting();
-  notifier.votingClosed(result);
-  res.json(result);
+  const finalized = await finalizeClosedVoting({
+    ...result,
+    message: "Admin closed voting and is sending the final sharing notification."
+  }, { mode: "live" });
+  res.json(finalized.currentState);
 }));
 
 app.post("/api/docs/generate", asyncHandler(async (_req, res) => {
-  const settings = await readSettings();
-  const sharingDateTime = nextSharingDateLabel(settings);
-  const session = await generateFinalDocuments({
-    sharingDateTime,
-    message: `Documents are ready for ${sharingDateTime}.`
-  });
-  notifier.docsCreated(session);
-  res.json(session);
+  const result = await closeVoting();
+  const finalized = await finalizeClosedVoting(result);
+  res.json(finalized.session);
 }));
 
 app.get("/api/feedback", asyncHandler(async (_req, res) => {
@@ -146,6 +154,16 @@ app.post("/api/feedback", asyncHandler(async (req, res) => {
 
 app.get("/api/sessions", asyncHandler(async (_req, res) => {
   res.json(await readSessions());
+}));
+
+app.post("/api/sessions/run-post-vote", asyncHandler(async (_req, res) => {
+  const session = await triggerPostVoteScheduling({ mode: "draft" });
+  res.json(session);
+}));
+
+app.post("/api/sessions/send-notifications", asyncHandler(async (_req, res) => {
+  const session = await triggerPostVoteScheduling({ mode: "live" });
+  res.json(session);
 }));
 
 app.post("/api/sessions/complete", asyncHandler(async (_req, res) => {
@@ -169,6 +187,9 @@ io.on("connection", async (socket) => {
   ));
   if (latestSession?.status === "documented") {
     socket.emit("session:docs-created", latestSession);
+  }
+  if (latestSession?.sessionDraft) {
+    socket.emit("session:scheduled", latestSession);
   }
 
   socket.on("user:vote", async (payload) => {
@@ -222,16 +243,65 @@ async function notifyVoteAndMaybeCreateDocs(result) {
 
   const votedUsers = new Set((state.votes || []).map((vote) => vote.userId));
   const allMembersVoted = members.length > 0 && members.every((member) => votedUsers.has(member.id));
-  if (!allMembersVoted || votingAutomation.has(state.date) || state.status === "documented") return;
+  if (!allMembersVoted || votingAutomation.has(state.date) || state.status === "documented" || state.status === "closed") return;
 
   votingAutomation.add(state.date);
-  const closed = await closeVoting();
-  notifier.votingClosed({
-    ...closed,
-    votes: state.votes,
-    message: "All members voted. AI is creating markdown documents now."
+  const readyState = await writeCurrentTopics({
+    ...state,
+    message: "All members have voted. Admin can now close voting and send the final schedule notification.",
+    votingReadyForClose: true
   });
+  notifier.voteUpdated(readyState);
+}
 
+async function loadAutomationConfig(mode = "draft") {
+  const configPath = mode === "live" ? liveAutomationConfigPath : draftAutomationConfigPath;
+  const config = JSON.parse(await readFile(path.resolve(configPath), "utf8"));
+  if (mode === "draft") {
+    if (config.googlePersonal) {
+      config.googlePersonal = {
+        ...config.googlePersonal,
+        dryRun: true,
+        sendTopicAnnouncementEmail: false,
+        sendConfirmationEmail: false
+      };
+    }
+    if (config.googleWorkspace) {
+      config.googleWorkspace = {
+        ...config.googleWorkspace,
+        dryRun: true,
+        sendTopicAnnouncementEmail: false,
+        sendConfirmationEmail: false
+      };
+    }
+  }
+  return config;
+}
+
+async function triggerPostVoteScheduling({ mode = "draft" } = {}) {
+  const current = await readCurrentTopics();
+  const members = await readMembers();
+  const settings = await readSettings();
+  const sessions = await readSessions();
+  const latestSession = sessions.at(-1);
+  if (!latestSession || !current.selectedTopics?.length) return latestSession ?? null;
+
+  const config = await loadAutomationConfig(mode);
+  const sessionDraft = await runPostVoteScheduling({
+    config,
+    selectedTopics: current.selectedTopics,
+    rankedTopics: current.rankedTopics || current.topics || [],
+    members,
+    votes: current.votes || []
+  });
+  return attachSessionDraft(latestSession.id, {
+    ...sessionDraft,
+    sharingDay: settings.sharingDay
+  });
+}
+
+async function finalizeClosedVoting(closedState, { mode = "draft" } = {}) {
+  notifier.votingClosed(closedState);
   const settings = await readSettings();
   const sharingDateTime = nextSharingDateLabel(settings);
   const session = await generateFinalDocuments({
@@ -242,6 +312,18 @@ async function notifyVoteAndMaybeCreateDocs(result) {
     ...session,
     selectedTopicTitles: session.selectedTopics.map((topic) => topic.title)
   });
+  const scheduledSession = await triggerPostVoteScheduling({ mode });
+  if (scheduledSession?.sessionDraft) {
+    notifier.sessionScheduled(scheduledSession);
+  }
+
+  return {
+    session: scheduledSession || session,
+    currentState: {
+      ...closedState,
+      sessionDraft: scheduledSession?.sessionDraft
+    }
+  };
 }
 
 server.listen(port, host, () => {

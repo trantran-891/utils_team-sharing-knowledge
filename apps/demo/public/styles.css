@@ -179,9 +179,62 @@ p {
   border: 1px solid var(--line);
   border-radius: 18px;
   color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
   margin: 1rem auto 0;
   max-width: 520px;
   padding: 0.85rem;
+}
+
+.status-box.status-success {
+  background: #eef8f2;
+  border-color: rgba(28, 107, 84, 0.28);
+  color: #1f5c43;
+}
+
+.status-box.status-warning {
+  background: #fff5db;
+  border-color: rgba(214, 107, 47, 0.35);
+  color: #9b5a12;
+}
+
+.status-box.status-error {
+  background: #fff0ef;
+  border-color: rgba(191, 64, 64, 0.32);
+  color: #b23a3a;
+}
+
+.status-box.is-loading::before {
+  animation: spin 0.9s linear infinite;
+  border: 2px solid rgba(28, 107, 84, 0.2);
+  border-top-color: var(--brand);
+  border-radius: 999px;
+  content: "";
+  display: inline-block;
+  height: 1rem;
+  width: 1rem;
+}
+
+button:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .shell {
@@ -391,6 +444,12 @@ p {
   display: grid;
   gap: 0.65rem;
   padding: 1rem;
+}
+
+.sharing-notice.scheduled {
+  background:
+    linear-gradient(145deg, rgba(214, 107, 47, 0.92), rgba(153, 74, 26, 0.94)),
+    radial-gradient(circle at top right, rgba(255, 250, 240, 0.22), transparent 12rem);
 }
 
 .sharing-notice h4 {

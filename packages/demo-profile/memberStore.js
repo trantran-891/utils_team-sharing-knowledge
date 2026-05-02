@@ -7,6 +7,7 @@ export const defaultMembers = [
   {
     id: "user_01",
     name: "Hải",
+    email: "hai.demo@example.com",
     role: "Backend Developer",
     level: "Mid",
     hardSkills: ["Node.js", "API", "Database"],
@@ -17,6 +18,7 @@ export const defaultMembers = [
   {
     id: "user_02",
     name: "An",
+    email: "an.demo@example.com",
     role: "QA Engineer",
     level: "Mid",
     hardSkills: ["Test Design", "Automation", "Risk Analysis"],
@@ -27,6 +29,7 @@ export const defaultMembers = [
   {
     id: "user_03",
     name: "Minh",
+    email: "minh.demo@example.com",
     role: "Frontend Developer",
     level: "Junior",
     hardSkills: ["HTML", "CSS", "JavaScript"],
@@ -37,6 +40,7 @@ export const defaultMembers = [
   {
     id: "user_04",
     name: "Lan",
+    email: "lan.demo@example.com",
     role: "Business Analyst",
     level: "Senior",
     hardSkills: ["Requirements", "User Flows", "Stakeholder Mapping"],
@@ -57,7 +61,11 @@ async function ensureFile() {
 
 export async function readMembers() {
   await ensureFile();
-  return JSON.parse(await readFile(membersPath, "utf8"));
+  const members = JSON.parse(await readFile(membersPath, "utf8"));
+  return members.map((member) => ({
+    ...member,
+    email: member.email || `${member.id}@example.com`
+  }));
 }
 
 export async function writeMembers(members) {

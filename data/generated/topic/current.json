@@ -1,7 +1,8 @@
 {
-  "date": "20260501",
-  "status": "generated",
-  "createdAt": "2026-05-01T09:25:14.214Z",
+  "date": "20260502",
+  "cycleId": "20260502-1777706231500",
+  "status": "documented",
+  "createdAt": "2026-05-02T07:17:11.500Z",
   "topics": [
     {
       "id": "topic_01",
@@ -18,8 +19,8 @@
         "Business Analyst"
       ],
       "status": "generated",
-      "voteCount": 1,
-      "descriptionPath": "data/generated/topic/20260501/topic_01/description.md"
+      "voteCount": 0,
+      "descriptionPath": "data/generated/topic/20260502/topic_01/description.md"
     },
     {
       "id": "topic_02",
@@ -37,7 +38,7 @@
       ],
       "status": "generated",
       "voteCount": 1,
-      "descriptionPath": "data/generated/topic/20260501/topic_02/description.md"
+      "descriptionPath": "data/generated/topic/20260502/topic_02/description.md"
     },
     {
       "id": "topic_03",
@@ -55,7 +56,7 @@
       ],
       "status": "generated",
       "voteCount": 0,
-      "descriptionPath": "data/generated/topic/20260501/topic_03/description.md"
+      "descriptionPath": "data/generated/topic/20260502/topic_03/description.md"
     },
     {
       "id": "topic_04",
@@ -72,8 +73,8 @@
         "Business Analyst"
       ],
       "status": "generated",
-      "voteCount": 0,
-      "descriptionPath": "data/generated/topic/20260501/topic_04/description.md"
+      "voteCount": 1,
+      "descriptionPath": "data/generated/topic/20260502/topic_04/description.md"
     },
     {
       "id": "topic_05",
@@ -90,8 +91,8 @@
         "Business Analyst"
       ],
       "status": "generated",
-      "voteCount": 0,
-      "descriptionPath": "data/generated/topic/20260501/topic_05/description.md"
+      "voteCount": 2,
+      "descriptionPath": "data/generated/topic/20260502/topic_05/description.md"
     },
     {
       "id": "topic_06",
@@ -109,7 +110,186 @@
       ],
       "status": "generated",
       "voteCount": 0,
-      "descriptionPath": "data/generated/topic/20260501/topic_06/description.md"
+      "descriptionPath": "data/generated/topic/20260502/topic_06/description.md"
+    }
+  ],
+  "message": "Weekly sharing topics are ready. Please vote for one topic.",
+  "notificationMessage": "Weekly sharing topics are ready. Please vote for one topic.",
+  "notifiedAt": "2026-05-02T07:17:11.501Z",
+  "closedAt": "2026-05-02T07:42:57.087Z",
+  "rankedTopics": [
+    {
+      "id": "topic_05",
+      "title": "Debugging Playbooks for Common Production Issues",
+      "overview": "Create repeatable incident debugging steps for API, database, and UI issues.",
+      "background": "Shared playbooks help less experienced members contribute during incidents.",
+      "whyItMatters": "The team can reduce mean time to understand and recover from failures.",
+      "difficulty": "Intermediate",
+      "expectedImpact": "High",
+      "targetAudience": [
+        "Backend Developer",
+        "QA Engineer",
+        "Frontend Developer",
+        "Business Analyst"
+      ],
+      "status": "generated",
+      "voteCount": 2,
+      "descriptionPath": "data/generated/topic/20260502/topic_05/description.md"
+    },
+    {
+      "id": "topic_02",
+      "title": "Risk-Based Testing Before Release",
+      "overview": "How QA, engineers, and BA can identify the riskiest flows before a release.",
+      "background": "Recent work needs faster confidence without expanding the full regression scope.",
+      "whyItMatters": "The team can spend testing time where defects would hurt users most.",
+      "difficulty": "Beginner",
+      "expectedImpact": "High",
+      "targetAudience": [
+        "Backend Developer",
+        "QA Engineer",
+        "Frontend Developer",
+        "Business Analyst"
+      ],
+      "status": "generated",
+      "voteCount": 1,
+      "descriptionPath": "data/generated/topic/20260502/topic_02/description.md"
+    },
+    {
+      "id": "topic_04",
+      "title": "Writing Acceptance Criteria That Engineers Can Build From",
+      "overview": "How to turn product intent into examples, edge cases, and testable outcomes.",
+      "background": "The team often needs clarification during implementation and test planning.",
+      "whyItMatters": "Sharper acceptance criteria reduce handoff friction across BA, dev, and QA.",
+      "difficulty": "Beginner",
+      "expectedImpact": "High",
+      "targetAudience": [
+        "Backend Developer",
+        "QA Engineer",
+        "Frontend Developer",
+        "Business Analyst"
+      ],
+      "status": "generated",
+      "voteCount": 1,
+      "descriptionPath": "data/generated/topic/20260502/topic_04/description.md"
+    },
+    {
+      "id": "topic_01",
+      "title": "System Design Basics for Feature Teams",
+      "overview": "A practical introduction to system design decisions for small feature teams.",
+      "background": "The team is touching more services and needs a shared language for tradeoffs.",
+      "whyItMatters": "Better design conversations reduce rework and make implementation plans clearer.",
+      "difficulty": "Intermediate",
+      "expectedImpact": "High",
+      "targetAudience": [
+        "Backend Developer",
+        "QA Engineer",
+        "Frontend Developer",
+        "Business Analyst"
+      ],
+      "status": "generated",
+      "voteCount": 0,
+      "descriptionPath": "data/generated/topic/20260502/topic_01/description.md"
+    },
+    {
+      "id": "topic_03",
+      "title": "Frontend Performance Checks Without Heavy Tooling",
+      "overview": "A lightweight checklist for measuring and improving perceived UI speed.",
+      "background": "The demo product has simple pages, but performance habits should start early.",
+      "whyItMatters": "Small frontend decisions compound into user-visible latency and instability.",
+      "difficulty": "Beginner",
+      "expectedImpact": "Medium",
+      "targetAudience": [
+        "Backend Developer",
+        "QA Engineer",
+        "Frontend Developer",
+        "Business Analyst"
+      ],
+      "status": "generated",
+      "voteCount": 0,
+      "descriptionPath": "data/generated/topic/20260502/topic_03/description.md"
+    },
+    {
+      "id": "topic_06",
+      "title": "Practical API Contract Review",
+      "overview": "A review checklist for API shape, error handling, versioning, and frontend needs.",
+      "background": "Frontend and backend alignment is a recurring source of implementation delays.",
+      "whyItMatters": "Early contract review prevents avoidable integration bugs.",
+      "difficulty": "Intermediate",
+      "expectedImpact": "Medium",
+      "targetAudience": [
+        "Backend Developer",
+        "QA Engineer",
+        "Frontend Developer",
+        "Business Analyst"
+      ],
+      "status": "generated",
+      "voteCount": 0,
+      "descriptionPath": "data/generated/topic/20260502/topic_06/description.md"
+    }
+  ],
+  "selectedTopics": [
+    {
+      "id": "topic_05",
+      "title": "Debugging Playbooks for Common Production Issues",
+      "overview": "Create repeatable incident debugging steps for API, database, and UI issues.",
+      "background": "Shared playbooks help less experienced members contribute during incidents.",
+      "whyItMatters": "The team can reduce mean time to understand and recover from failures.",
+      "difficulty": "Intermediate",
+      "expectedImpact": "High",
+      "targetAudience": [
+        "Backend Developer",
+        "QA Engineer",
+        "Frontend Developer",
+        "Business Analyst"
+      ],
+      "status": "documented",
+      "voteCount": 2,
+      "descriptionPath": "data/generated/topic/20260502/topic_05/description.md",
+      "selectedRank": 1,
+      "documentPath": "data/generated/topic/20260502/topic_05/final_document.md",
+      "voteSummaryPath": "data/generated/topic/20260502/topic_05/vote_summary.md"
+    },
+    {
+      "id": "topic_02",
+      "title": "Risk-Based Testing Before Release",
+      "overview": "How QA, engineers, and BA can identify the riskiest flows before a release.",
+      "background": "Recent work needs faster confidence without expanding the full regression scope.",
+      "whyItMatters": "The team can spend testing time where defects would hurt users most.",
+      "difficulty": "Beginner",
+      "expectedImpact": "High",
+      "targetAudience": [
+        "Backend Developer",
+        "QA Engineer",
+        "Frontend Developer",
+        "Business Analyst"
+      ],
+      "status": "documented",
+      "voteCount": 1,
+      "descriptionPath": "data/generated/topic/20260502/topic_02/description.md",
+      "selectedRank": 2,
+      "documentPath": "data/generated/topic/20260502/topic_02/final_document.md",
+      "voteSummaryPath": "data/generated/topic/20260502/topic_02/vote_summary.md"
+    },
+    {
+      "id": "topic_04",
+      "title": "Writing Acceptance Criteria That Engineers Can Build From",
+      "overview": "How to turn product intent into examples, edge cases, and testable outcomes.",
+      "background": "The team often needs clarification during implementation and test planning.",
+      "whyItMatters": "Sharper acceptance criteria reduce handoff friction across BA, dev, and QA.",
+      "difficulty": "Beginner",
+      "expectedImpact": "High",
+      "targetAudience": [
+        "Backend Developer",
+        "QA Engineer",
+        "Frontend Developer",
+        "Business Analyst"
+      ],
+      "status": "documented",
+      "voteCount": 1,
+      "descriptionPath": "data/generated/topic/20260502/topic_04/description.md",
+      "selectedRank": 3,
+      "documentPath": "data/generated/topic/20260502/topic_04/final_document.md",
+      "voteSummaryPath": "data/generated/topic/20260502/topic_04/vote_summary.md"
     }
   ]
 }

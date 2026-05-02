@@ -109,3 +109,17 @@ export async function completeSession() {
   await writeCurrentTopics({ ...current, status: "completed" });
   return latest;
 }
+
+export async function attachSessionDraft(sessionId, sessionDraft) {
+  const sessions = await readSessions();
+  const index = sessions.findIndex((item) => item.id === sessionId);
+  if (index < 0) return null;
+  sessions[index] = {
+    ...sessions[index],
+    status: "scheduled",
+    sessionDraft,
+    scheduledAt: new Date().toISOString()
+  };
+  await writeFile(sessionsPath, `${JSON.stringify(sessions, null, 2)}\n`);
+  return sessions[index];
+}
