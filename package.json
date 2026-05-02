@@ -10,11 +10,15 @@
   "scripts": {
     "build": "tsc --noEmit",
     "test": "vitest run",
+    "demo:web": "node apps/demo/server.js",
+    "start": "node apps/demo/server.js",
     "workflow:mock": "tsx apps/orchestrator/src/index.ts",
     "clean:outputs": "node scripts/clean-outputs.mjs",
     "google:personal-auth": "node scripts/google-oauth-personal-auth.mjs"
   },
   "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {

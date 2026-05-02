@@ -1,0 +1,80 @@
+[
+  {
+    "id": "user_01",
+    "name": "Hải",
+    "role": "Backend Developer",
+    "level": "Mid",
+    "hardSkills": [
+      "Node.js",
+      "API",
+      "Database"
+    ],
+    "softSkills": [
+      "Communication"
+    ],
+    "goals": [
+      "Improve team knowledge sharing"
+    ],
+    "painPoints": [
+      "Need clearer sharing priorities"
+    ]
+  },
+  {
+    "id": "user_02",
+    "name": "An",
+    "role": "QA Engineer",
+    "level": "Mid",
+    "hardSkills": [
+      "Testing",
+      "automation"
+    ],
+    "softSkills": [
+      "Communication"
+    ],
+    "goals": [
+      "Improve team knowledge sharing"
+    ],
+    "painPoints": [
+      "Need clearer sharing priorities"
+    ]
+  },
+  {
+    "id": "user_03",
+    "name": "Minh",
+    "role": "Frontend Developer",
+    "level": "Mid",
+    "hardSkills": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "softSkills": [
+      "Communication"
+    ],
+    "goals": [
+      "Improve team knowledge sharing"
+    ],
+    "painPoints": [
+      "Need clearer sharing priorities"
+    ]
+  },
+  {
+    "id": "user_04",
+    "name": "Lan",
+    "role": "Business Analyst",
+    "level": "Mid",
+    "hardSkills": [
+      "Requirements",
+      "analysis"
+    ],
+    "softSkills": [
+      "Communication"
+    ],
+    "goals": [
+      "Improve team knowledge sharing"
+    ],
+    "painPoints": [
+      "Need clearer sharing priorities"
+    ]
+  }
+]

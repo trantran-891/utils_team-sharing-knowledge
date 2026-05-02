@@ -1,0 +1,8 @@
+{
+  "generateTopicDay": "Monday",
+  "notifyDay": "Wednesday",
+  "voteDeadlineDay": "Thursday",
+  "sharingDay": "Friday",
+  "topicDirection": "Focus on foundational knowledge, practical engineering skills, and cross-functional collaboration.",
+  "topicsPerCycle": 6
+}

@@ -43,6 +43,40 @@ Run the mock workflow:
 npm run workflow:mock
 ```
 
+Run the fake web UI demo:
+
+```bash
+npm start
+```
+
+Then open:
+
+```text
+http://localhost:3000
+```
+
+Open all demo views at once:
+
+```bash
+./start.sh
+```
+
+Current demo views:
+
+```text
+Admin action center  http://127.0.0.1:3000/
+User chat voting    http://127.0.0.1:3000/chats.html
+Feedback form       http://127.0.0.1:3000/feedback.html
+```
+
+The demo uses Node.js, Express, Socket.IO, HTML, CSS, and vanilla JavaScript. It does not use a frontend framework or production database. Topic artifacts are written to:
+
+```text
+data/generated/topic/yyyymmdd/topic_XX/
+```
+
+Each generated topic gets a `description.md`. After voting is closed, the demo creates `final_document.md` and `vote_summary.md` for selected topics. Slide generation is intentionally left for future development.
+
 Artifacts are written to:
 
 ```text
@@ -62,6 +96,40 @@ data/samples                   Demo input data
 data/outputs                   Generated run artifacts
 docs                           Architecture, contracts, workflows, prompts
 tests                          Schema, module, and workflow tests
+```
+
+## Fake Web UI Demo
+
+Demo app:
+
+```text
+apps/demo/server.js
+apps/demo/public/index.html
+apps/demo/public/chats.html
+apps/demo/public/feedback.html
+apps/demo/public/styles.css
+apps/demo/public/app.js
+```
+
+Demo-specific packages:
+
+```text
+packages/demo-ai-runner
+packages/demo-topic-generator
+packages/demo-voting
+packages/demo-notification
+packages/demo-profile
+packages/demo-feedback
+packages/demo-settings
+packages/demo-session
+```
+
+Demo docs:
+
+```text
+docs/demo-script.md
+docs/future-todo.md
+docs/demo-module-contracts.md
 ```
 
 ## Provider Switching
